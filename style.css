@@ -574,3 +574,33 @@ lottie-player { margin: 0 auto; }
   padding: 12px 16px; border-radius: 16px; border: 2px solid #CBD5E1;
   background: #fff; font-size: 20px; cursor: pointer;
 }
+
+/* ===== オンボーディング ===== */
+.onboard-screen { min-height: 100dvh; display: flex; flex-direction: column; padding: 20px 16px; max-width: 480px; margin: 0 auto; }
+.onboard-slide { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; animation: slideUp 0.4s ease-out; }
+.onboard-icon { font-size: 72px; margin-bottom: 16px; }
+.onboard-title { font-size: 24px; font-weight: 900; color: #F97316; margin-bottom: 12px; line-height: 1.3; }
+.onboard-text { font-size: 16px; color: #475569; line-height: 1.6; }
+.onboard-badge { margin: 16px 0; padding: 8px 20px; background: #EFF6FF; border: 2px solid #3B82F6; border-radius: 12px; font-size: 14px; font-weight: 700; color: #1E40AF; }
+.onboard-info-card { text-align: left; margin: 10px 0; padding: 14px; background: #fff; border: 2px solid #E2E8F0; border-radius: 14px; }
+.onboard-info-card h3 { font-size: 15px; margin-bottom: 8px; }
+.onboard-info-card ul { list-style: none; padding: 0; }
+.onboard-info-card li { font-size: 13px; padding: 4px 0; line-height: 1.5; color: #475569; }
+.onboard-info-card li strong { color: #1E293B; }
+.onboard-mascot { font-size: 80px; margin: 20px 0; }
+.onboard-nav { padding: 16px 0; }
+.onboard-dots { display: flex; justify-content: center; gap: 8px; margin-bottom: 12px; }
+.onboard-dot { width: 10px; height: 10px; border-radius: 50%; background: #CBD5E1; }
+.onboard-dot.active { background: #F97316; width: 24px; border-radius: 5px; }
+.onboard-buttons { display: flex; justify-content: space-between; gap: 12px; }
+.btn-game-next { background: #FEF3C7; border-color: #F59E0B; color: #92400E; }
+
+/* 保護者モード拡張 */
+.parent-section { margin: 12px 0; padding: 12px; background: #F8FAFC; border-radius: 12px; border: 1px solid #E2E8F0; }
+.parent-karte-info { text-align: center; font-size: 13px; color: #94A3B8; margin-bottom: 8px; }
+.sibling-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.sibling-btn { padding: 10px 16px; border-radius: 12px; border: 2px solid #CBD5E1; background: #fff; font-size: 14px; font-weight: 700; cursor: pointer; }
+.sibling-btn:active { transform: scale(.95); }
+.sibling-active { border-color: #F97316; background: #FFF7ED; color: #F97316; }
+.sibling-add { border-style: dashed; color: #94A3B8; }
+.form-input-parent { width: 100%; padding: 10px 14px; border: 2px solid #CBD5E1; border-radius: 12px; font-size: 16px; margin-top: 4px; }

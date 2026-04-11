@@ -73,6 +73,13 @@ const OralApp = (() => {
     getParams();
     try { await signInAnonymous(); } catch (e) {}
     await loadStreakData();
+    // 初回: オンボーディング → テーマ選択 → ホーム
+    if (typeof Onboarding !== 'undefined' && Onboarding.shouldShow()) {
+      Onboarding.show(() => {
+        Themes.showSelector('OralApp.showHome()');
+      });
+      return;
+    }
     if (!Themes.getTheme()) {
       Themes.showSelector('OralApp.showHome()');
       return;
@@ -511,7 +518,12 @@ const OralApp = (() => {
         karteNo, clinicCode,
         date: firebase.firestore.FieldValue.serverTimestamp(),
         dateStr: today, gameType,
-        score: score || 0, duration: duration || 0, completed: true
+        score: score || 0, duration: duration || 0, completed: true,
+        // 学会発表用: デバイス・環境データ
+        deviceType: /iPad|iPhone/.test(navigator.userAgent) ? 'iOS' : /Android/.test(navigator.userAgent) ? 'Android' : 'PC',
+        themeId: Themes.getTheme()?.id || 'none',
+        unlockedStage: getUnlockedStage(),
+        sessionStreak: streakData?.currentStreak || 0,
       });
 
       const streakRef = db.collection('oralFunctionStreaks').doc(karteNo);
