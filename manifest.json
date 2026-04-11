@@ -1,0 +1,11 @@
+{
+  "name": "おくちのぼうけん",
+  "short_name": "おくちゲーム",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFF7ED",
+  "theme_color": "#F97316",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
