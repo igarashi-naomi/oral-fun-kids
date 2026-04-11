@@ -6,6 +6,31 @@ const OralApp = (() => {
   let currentScreen = 'home';
   let streakData = null;
 
+  // ===== スタッフ→子供向けニックネーム変換 =====
+  // 子供が親しみやすい愛称（ニックネーム）
+  const STAFF_NICKNAMES = {
+    // 衛生��（本院）
+    '山田いくみ': 'いくみん', '増子貴子': 'たかちゃん', '菊池亜矢子': 'あやちゃん',
+    '手塚千夏': 'ちなっちゃん', '野崎亜弓': 'あゆちゃん', '松山恵': 'めぐちゃん',
+    '篠原祐香': 'ゆうちゃん', '岡美里': 'みさちゃん', '緑川愛璃菜': 'ありちゃん',
+    '降矢明子': 'あきちゃん', '石川陽菜': 'ひなちゃん', '梁島祐巳': 'ゆみちゃん',
+    '吉成ミサト': 'みさちゃん',
+    // 衛生士（イースト）
+    '瓦井佐友里': 'さゆちゃん', '早乙女亜紗子': 'あさちゃん', '大根田苑美': 'そのちゃん',
+    '岡千穂彌': 'ちほちゃん', '金井鞠奈': 'まりちゃん',
+    // 歯科医師
+    '五十嵐尚美': 'なおみ', '五十嵐三彦': 'みつひこ',
+    '糸井友加里': 'ゆかりん', '鈴木千夏': 'ちなっちゃん', '土沢太輝': 'たいきくん',
+    '山田淳': 'じゅんくん', '遠藤千愛': 'ちあちゃん', '田中祐樹': 'ゆうきくん',
+    '渡邉杏子': 'きょうちゃん', '山田明日美': 'あすみん', '奈良清加': 'きよちゃん',
+  };
+
+  function toNickname(fullName) {
+    if (!fullName) return 'せんせい';
+    const nick = STAFF_NICKNAMES[fullName.replace(/（.*）/, '')];
+    return nick || fullName.replace(/^.+?([^\s]+)$/, '$1'); // 姓を除去してフォールバック
+  }
+
   // ===== 公文式ステージ定義（体操ゲーム） =====
   const EXERCISE_STAGES = [
     { stage: 1, gameId: 'aiube',    name: 'あいうべ<br>たいそう', icon: '😮', color: '#EF4444' },
@@ -205,7 +230,7 @@ const OralApp = (() => {
       if (diffDays > 60) return; // 遠すぎる予約も非表示
 
       const theme = Themes.getTheme() || {};
-      const dhName = evaluator ? evaluator.replace(/（.*）/, '') : 'えいせいしさん';
+      const dhName = evaluator ? toNickname(evaluator) : 'えいせいしさん';
 
       let message, emoji, bgClass;
       if (diffDays === 0) {
@@ -592,7 +617,7 @@ const OralApp = (() => {
 
   return {
     start, showHome, openGame, logGameComplete, showComplete, showLockedMessage,
-    playReward, toggleDailyCheck,
+    playReward, toggleDailyCheck, toNickname,
     get karteNo() { return karteNo; },
     get clinicCode() { return clinicCode; }
   };

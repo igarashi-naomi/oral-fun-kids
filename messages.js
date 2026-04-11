@@ -27,7 +27,7 @@ const Messages = (() => {
           <h3 class="dh-message-title">💌 えいせいしさんから おてがみ！</h3>
           ${unreadMessages.map(m => `
             <div class="dh-message-card" onclick="Messages.readMessage('${m.id}')">
-              <div class="dh-message-from">${escHtml(m.senderName || 'えいせいし')}せんせいより</div>
+              <div class="dh-message-from">${escHtml(typeof OralApp !== 'undefined' && OralApp.toNickname ? OralApp.toNickname(m.senderName) : (m.senderName || 'えいせいし'))}せんせいより</div>
               <div class="dh-message-body">${escHtml(m.message)}</div>
               ${m.sticker ? `<div class="dh-message-sticker">${m.sticker}</div>` : ''}
             </div>
@@ -53,7 +53,7 @@ const Messages = (() => {
         <div class="game-screen">
           <div class="break-content">
             <div class="break-icon">💌</div>
-            <h2>${escHtml(msg.senderName || 'えいせいし')}せんせいから</h2>
+            <h2>${escHtml(typeof OralApp !== 'undefined' && OralApp.toNickname ? OralApp.toNickname(msg.senderName) : (msg.senderName || 'えいせいし'))}せんせいから</h2>
             <div class="dh-message-full">${escHtml(msg.message)}</div>
             ${msg.sticker ? `<div class="dh-message-sticker-big">${msg.sticker}</div>` : ''}
             <button class="btn-game btn-game-home" onclick="OralApp.showHome()" style="margin-top:20px">もどる</button>
