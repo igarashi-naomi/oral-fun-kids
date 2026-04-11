@@ -100,8 +100,10 @@ const GameTongue = (() => {
 
     if (dir === currentDir.dir) {
       score += 5;
+      try { Sounds.correct(); Effects.sparkle(window.innerWidth/2, window.innerHeight*0.4, 12); Effects.vibrate([20]); } catch(e) {}
       showResult(true);
     } else {
+      try { Sounds.wrong(); Effects.screenShake(3, 200); } catch(e) {}
       showResult(false);
     }
   }

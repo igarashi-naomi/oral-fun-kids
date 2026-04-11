@@ -135,8 +135,16 @@ const GameChewing = (() => {
       hits++;
       score += 10;
       if (tapBtn) { tapBtn.style.background = '#D9F99D'; setTimeout(() => { if (tapBtn) tapBtn.style.background = ''; }, 150); }
+      try {
+        const combo = Effects.addCombo();
+        Effects.comboPopup(combo);
+        Effects.sparkle(window.innerWidth/2, window.innerHeight*0.45, 6);
+        Effects.vibrate([15]);
+        Sounds.combo(combo);
+      } catch(e) {}
     } else {
       misses++;
+      try { Effects.resetCombo(); Effects.screenShake(2, 100); } catch(e) {}
       if (tapBtn) { tapBtn.style.background = '#FEE2E2'; setTimeout(() => { if (tapBtn) tapBtn.style.background = ''; }, 150); }
     }
 

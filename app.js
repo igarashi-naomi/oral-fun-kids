@@ -85,7 +85,26 @@ const OralApp = (() => {
       return;
     }
     Themes.applyTheme();
-    showHome();
+
+    // デイリーサプライズ → ストーリー → ホーム
+    const showFlow = () => {
+      const theme = Themes.getTheme();
+      if (typeof Story !== 'undefined' && streakData && Story.isNewChapter(streakData, theme?.id)) {
+        const ch = Story.getCurrentChapter(streakData, theme?.id);
+        Story.showChapter(ch, () => {
+          Story.markChapterSeen(streakData);
+          showHome();
+        });
+      } else {
+        showHome();
+      }
+    };
+
+    if (typeof DailySurprise !== 'undefined' && DailySurprise.shouldShow()) {
+      DailySurprise.show(showFlow);
+    } else {
+      showFlow();
+    }
   }
 
   async function loadStreakData() {
@@ -200,6 +219,7 @@ const OralApp = (() => {
         <div id="dh-messages"></div>
 
         <div class="home-footer">
+          <button class="btn-calendar" onclick="WorldMap.show(OralApp.getUnlockedStage(), Themes.getTheme())">🗺️ マップ</button>
           <button class="btn-calendar" onclick="Collection.showAlbum()">📖 ずかん</button>
           <button class="btn-calendar" onclick="Achievements.showAll(null)">🏆 バッジ</button>
           <button class="btn-calendar" onclick="StampCalendar.show()">📅 カレンダー</button>
@@ -654,7 +674,7 @@ const OralApp = (() => {
 
   return {
     start, showHome, openGame, logGameComplete, showComplete, showLockedMessage,
-    playReward, toggleDailyCheck, toNickname,
+    playReward, toggleDailyCheck, toNickname, getUnlockedStage,
     get karteNo() { return karteNo; },
     get clinicCode() { return clinicCode; }
   };

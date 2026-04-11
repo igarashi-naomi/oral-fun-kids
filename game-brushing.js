@@ -144,12 +144,20 @@ const GameBrushing = (() => {
     if (dirtyTeeth[id] <= 0) {
       dirtyTeeth[id] = 0;
       cleanedCount++;
-      // きれいになった
+      // きれいになった — エフェクト付き
       toothEl.setAttribute('fill', '#FFFFFF');
       toothEl.setAttribute('stroke', '#D1D5DB');
       const g = toothEl.parentElement;
       const text = g.querySelector('text');
       if (text) { text.textContent = '✨'; text.setAttribute('font-size', '12'); text.setAttribute('fill', '#000'); }
+      // エフェクト
+      try {
+        const rect = toothEl.getBoundingClientRect();
+        Effects.sparkle(rect.left + rect.width/2, rect.top + rect.height/2, 8);
+        Effects.scorePopup('+5', rect.left + rect.width/2, rect.top, '#3B82F6');
+        Effects.vibrate([15]);
+        Sounds.tap();
+      } catch(e) {}
 
       // 進捗更新
       const countEl = document.getElementById('brush-count');

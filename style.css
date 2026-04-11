@@ -690,3 +690,36 @@ lottie-player { margin: 0 auto; }
 .badge-icon-big { font-size: 80px; margin: 16px 0; }
 .badge-name-big { font-size: 28px; font-weight: 900; color: #F97316; }
 .badge-desc { font-size: 16px; color: #475569; margin-top: 8px; }
+
+/* ===== ストーリー ===== */
+.story-screen {
+  min-height: 100dvh; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; padding: 24px 20px; text-align: center;
+}
+.story-chapter-label { font-size: 13px; color: rgba(255,255,255,.5); letter-spacing: 3px; text-transform: uppercase; }
+.story-title { font-size: 26px; font-weight: 900; color: #fff; margin: 8px 0 16px; text-shadow: 0 2px 8px rgba(0,0,0,.4); }
+.story-mascot { font-size: 64px; margin: 16px 0; animation: bounce 2s ease-in-out infinite; }
+.story-text-box {
+  max-width: 340px; padding: 20px; background: rgba(0,0,0,.3); border-radius: 16px;
+  backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,.15);
+}
+.story-text { font-size: 16px; color: #fff; line-height: 1.8; min-height: 100px; }
+.story-next-btn { animation: slideUp .4s ease-out; }
+
+/* ===== ワールドマップ ===== */
+.map-screen { min-height: 100dvh; padding: 12px 16px; }
+.map-container { max-width: 340px; margin: 0 auto; }
+.map-svg { width: 100%; height: auto; }
+
+/* ===== デイリーサプライズ ===== */
+.surprise-screen {
+  min-height: 100dvh; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; background: radial-gradient(circle, #FEF3C7, #FFF7ED);
+}
+.surprise-card {
+  padding: 32px 24px; background: #fff; border: 3px solid #F59E0B; border-radius: 24px;
+  text-align: center; box-shadow: 0 8px 32px rgba(245,158,11,.2); max-width: 320px;
+}
+.surprise-icon { font-size: 64px; margin-bottom: 12px; }
+.surprise-label { font-size: 24px; font-weight: 900; color: #F97316; }
+.surprise-desc { font-size: 15px; color: #475569; margin-top: 10px; line-height: 1.6; }
