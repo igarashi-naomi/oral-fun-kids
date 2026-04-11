@@ -44,7 +44,7 @@ const GameAiube = (() => {
   ];
 
   const TOTAL_SETS = 3; // 目標セット数
-  const REPS_PER_SET = 10;
+  const REPS_PER_SET = 5; // 5回×3セット=短くて集中できる
 
   let currentPose = 0;
   let currentRep = 0;
@@ -121,7 +121,12 @@ const GameAiube = (() => {
 
       if (countdown <= 0) {
         clearInterval(timer);
-        try { Sounds.tap(); } catch(e) {}
+        try {
+          Sounds.tap();
+          Effects.sparkle(window.innerWidth / 2, window.innerHeight * 0.3, 10);
+          Effects.scorePopup('+10', window.innerWidth / 2, window.innerHeight * 0.25, pose.color);
+          Effects.vibrate([20]);
+        } catch(e) {}
         nextPose();
       }
     }, 1000);

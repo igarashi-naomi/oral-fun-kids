@@ -200,6 +200,8 @@ const OralApp = (() => {
         <div id="dh-messages"></div>
 
         <div class="home-footer">
+          <button class="btn-calendar" onclick="Collection.showAlbum()">📖 ずかん</button>
+          <button class="btn-calendar" onclick="Achievements.showAll(null)">🏆 バッジ</button>
           <button class="btn-calendar" onclick="StampCalendar.show()">📅 カレンダー</button>
           <button class="btn-sound" onclick="Sounds.toggle(); this.textContent=Sounds.isEnabled()?'🔊':'🔇'">${typeof Sounds !== 'undefined' && Sounds.isEnabled() ? '🔊' : '🔇'}</button>
           <button class="btn-parent" onclick="ParentMode.show()">🔒 ほごしゃ</button>
@@ -588,6 +590,7 @@ const OralApp = (() => {
   // 完了画面 — 体操完了後は「つぎは はみがきチェック！」へ誘導
   function showComplete(gameType, score) {
     try { Sounds.fanfare(); Voice.complete(); } catch(e) {}
+    try { Effects.fullConfetti(); } catch(e) {}
     const app = document.getElementById('app');
     const theme = Themes.getTheme() || {};
     const messages = theme.completeMsg || ['すごい！', 'がんばったね！', 'やったー！', 'かんぺき！'];
@@ -596,6 +599,39 @@ const OralApp = (() => {
     const isExercise = EXERCISE_STAGES.some(s => s.gameId === gameType);
     const coinIcon = theme.coinIcon || '🪙';
 
+    const streakMsg = streak > 1
+      ? `<div class="complete-streak">🔥 ${streak}日れんぞく！</div>`
+      : '';
+
+    // Phase 1: 完了演出（2秒後にガチャへ）
+    app.innerHTML = `
+      <div class="complete-screen">
+        <div class="complete-stars">⭐🌟⭐</div>
+        <h1 class="complete-title">${msg}</h1>
+        <div class="complete-mascot">${theme.mascot || '🦷'}✨</div>
+        ${score ? `<p class="complete-score">${score}てん</p>` : ''}
+        <div class="complete-stamp">📌 スタンプ + ${coinIcon}</div>
+        ${streakMsg}
+        <p class="gacha-teaser">カードを ゲットしよう！</p>
+      </div>
+    `;
+
+    // 2秒後にガチャ演出
+    setTimeout(() => {
+      const card = Collection.drawCard();
+      Collection.showGacha(card, () => {
+        // ガチャ後: 次のアクションへ
+        showPostComplete(gameType, isExercise);
+      });
+    }, 2000);
+  }
+
+  // ガチャ後の画面
+  function showPostComplete(gameType, isExercise) {
+    const app = document.getElementById('app');
+    const collected = Collection.getCollectedCount();
+    const total = CARD_DATA.length;
+
     let nextAction = '';
     if (isExercise && !getBrushStatus()) {
       nextAction = `<button class="btn-game btn-game-next" onclick="OralApp.showHome()">🪥 つぎは はみがきチェック！</button>`;
@@ -603,24 +639,13 @@ const OralApp = (() => {
       nextAction = `<button class="btn-game btn-game-next" onclick="OralApp.showHome()">🎁 ごほうびタイムへ！</button>`;
     }
 
-    const streakMsg = streak >= STREAK_NOTIFY_DAYS
-      ? `<div class="complete-streak">🔥 ${streak}日れんぞく！</div>`
-      : streak > 1
-        ? `<div class="complete-streak">🔥 ${streak}日れんぞく！</div>`
-        : '';
-
     app.innerHTML = `
       <div class="complete-screen">
-        <div class="complete-stars">⭐🌟⭐</div>
-        <h1 class="complete-title">${msg}</h1>
-        <div class="complete-mascot">${theme.mascot || '🦷'}✨</div>
-        ${score ? `<p class="complete-score">${score}てん</p>` : ''}
-        <div class="complete-stamp">📌 スタンプゲット！</div>
-        <div class="complete-coin">${coinIcon} +1</div>
-        ${streakMsg}
+        <p class="album-teaser">📖 ずかん: ${collected}/${total}まい</p>
         <div class="complete-actions">
           ${nextAction}
-          <button class="btn-game btn-game-retry" onclick="OralApp.openGame('${gameType}')">もういっかい</button>
+          <button class="btn-game btn-game-retry" onclick="OralApp.openGame('${gameType}')">もういっかい（カードもう1まい！）</button>
+          <button class="btn-game btn-game-home" onclick="Collection.showAlbum()">📖 ずかんをみる</button>
           <button class="btn-game btn-game-home" onclick="OralApp.showHome()">ホーム</button>
         </div>
       </div>
