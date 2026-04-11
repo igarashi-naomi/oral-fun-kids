@@ -1,7 +1,7 @@
 // 音声ナレーション — Web Speech Synthesis API
 // iOS/Androidの高品質日本語音声を使用
 const Voice = (() => {
-  let enabled = true;
+  let enabled = false; // デフォルトOFF（機械音声が怖い子供もいるため）
   let currentUtterance = null;
 
   function isEnabled() {
