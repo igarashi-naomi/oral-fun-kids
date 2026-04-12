@@ -744,23 +744,23 @@ lottie-player { margin: 0 auto; }
 .hn-q-saved { text-align: center; font-size: 12px; color: #94A3B8; margin-top: 8px; }
 
 /* ===== 口腔機能発達不全症 専用問診表 ===== */
-.q-oral-screen { padding: 12px 16px; max-width: 520px; margin: 0 auto; padding-bottom: 80px; }
-.q-oral-intro { text-align: center; padding: 16px; margin-bottom: 16px; background: #EFF6FF; border: 2px solid #BFDBFE; border-radius: 16px; }
-.q-oral-intro p { font-size: 15px; color: #1E40AF; font-weight: 700; line-height: 1.6; }
-.q-oral-note { font-size: 13px !important; color: #64748B !important; font-weight: 400 !important; margin-top: 8px; }
-.q-oral-section { margin: 16px 0; padding: 16px; background: #fff; border-radius: 16px; border: 2px solid #E2E8F0; }
-.q-oral-section-title { font-size: 17px; margin-bottom: 14px; color: #1E293B; border-bottom: 2px solid #F1F5F9; padding-bottom: 8px; }
-.q-oral-item { margin-bottom: 14px; }
-.q-oral-label { display: block; font-size: 14px; font-weight: 700; color: #475569; margin-bottom: 6px; line-height: 1.5; }
-.q-oral-select { width: 100%; padding: 10px 12px; border: 2px solid #CBD5E1; border-radius: 12px; font-size: 15px; background: #F8FAFC; }
-.q-oral-select:focus { border-color: #3B82F6; outline: none; }
-.q-oral-textarea { width: 100%; padding: 10px 12px; border: 2px solid #CBD5E1; border-radius: 12px; font-size: 14px; resize: vertical; background: #F8FAFC; }
-.q-oral-multi { display: flex; flex-direction: column; gap: 6px; }
-.q-oral-check { display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; font-size: 14px; cursor: pointer; }
-.q-oral-check:has(input:checked) { background: #DBEAFE; border-color: #3B82F6; }
-.q-oral-check input { width: 20px; height: 20px; accent-color: #3B82F6; }
+.q-oral-screen { padding: 12px 16px; max-width: 520px; margin: 0 auto; padding-bottom: 80px; background: #FFF7ED; }
+.q-oral-intro { text-align: center; padding: 20px; margin-bottom: 16px; background: linear-gradient(135deg, #DBEAFE, #EFF6FF); border: 3px solid #60A5FA; border-radius: 20px; }
+.q-oral-intro p { font-size: 16px; color: #1E40AF; font-weight: 700; line-height: 1.6; }
+.q-oral-note { font-size: 13px !important; color: #3B82F6 !important; font-weight: 400 !important; margin-top: 8px; }
+.q-oral-section { margin: 16px 0; padding: 18px; background: #fff; border-radius: 20px; border: 3px solid #FDBA74; box-shadow: 0 2px 8px rgba(0,0,0,.04); }
+.q-oral-section-title { font-size: 18px; font-weight: 900; margin-bottom: 14px; color: #F97316; border-bottom: 3px solid #FED7AA; padding-bottom: 8px; }
+.q-oral-item { margin-bottom: 16px; }
+.q-oral-label { display: block; font-size: 15px; font-weight: 700; color: #1E40AF; margin-bottom: 8px; line-height: 1.5; }
+.q-oral-select { width: 100%; padding: 12px 14px; border: 3px solid #93C5FD; border-radius: 14px; font-size: 16px; background: #F0F9FF; color: #1E293B; }
+.q-oral-select:focus { border-color: #3B82F6; outline: none; background: #fff; }
+.q-oral-textarea { width: 100%; padding: 12px 14px; border: 3px solid #93C5FD; border-radius: 14px; font-size: 15px; resize: vertical; background: #F0F9FF; color: #1E293B; }
+.q-oral-multi { display: flex; flex-direction: column; gap: 8px; }
+.q-oral-check { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: #F0F9FF; border: 2px solid #93C5FD; border-radius: 12px; font-size: 15px; cursor: pointer; color: #1E293B; }
+.q-oral-check:has(input:checked) { background: #DBEAFE; border-color: #3B82F6; font-weight: 700; }
+.q-oral-check input { width: 22px; height: 22px; accent-color: #3B82F6; }
 .q-oral-submit { margin: 24px 0; }
-.q-oral-privacy { text-align: center; font-size: 12px; color: #94A3B8; margin-top: 12px; }
+.q-oral-privacy { text-align: center; font-size: 12px; color: #64748B; margin-top: 12px; }
 .q-oral-complete { text-align: center; padding: 40px 20px; border-radius: 20px; margin: 40px 0; }
 .q-oral-complete h2 { font-size: 22px; margin: 12px 0; }
 .q-oral-complete p { font-size: 15px; color: #475569; }

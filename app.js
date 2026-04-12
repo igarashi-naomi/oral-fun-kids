@@ -222,6 +222,7 @@ const OralApp = (() => {
 
         <div class="home-footer">
           <button class="btn-calendar" onclick="WorldMap.show(OralApp.getUnlockedStage(), Themes.getTheme())">🗺️ マップ</button>
+          <button class="btn-calendar" onclick="QuestionnaireOralDev.show()">📋 もんしん</button>
           <button class="btn-calendar" onclick="Collection.showAlbum()">📖 ずかん</button>
           <button class="btn-calendar" onclick="Achievements.showAll(null)">🏆 バッジ</button>
           <button class="btn-calendar" onclick="StampCalendar.show()">📅 カレンダー</button>
