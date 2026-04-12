@@ -98,7 +98,9 @@ const GameAiube = (() => {
         </div>
 
         <div class="aiube-content">
-          <div class="aiube-face" style="border-color:${pose.color}" id="aiube-face">${pose.face}</div>
+          <div class="aiube-face-wrapper" id="aiube-face">
+            ${typeof Anim !== 'undefined' ? Anim.mouthChar(pose.char, 160) : `<div class="aiube-face" style="border-color:${pose.color}">${pose.face}</div>`}
+          </div>
           <div class="aiube-char" style="color:${pose.color}">${pose.char}</div>
           <p class="aiube-instruction">${pose.instruction}</p>
           <div class="aiube-timer" id="aiube-timer">
@@ -181,7 +183,7 @@ const GameAiube = (() => {
         </div>
 
         <div class="patakara-content">
-          <div class="patakara-character">${phrase.icon}</div>
+          <div class="patakara-character">${typeof Anim !== 'undefined' ? Anim.patakaraChar(phrase.icon, 80) : phrase.icon}</div>
           <h2 class="patakara-title">${phrase.character}といっしょに！</h2>
           <p class="patakara-instruction">おおきな声で3かいいってみよう！</p>
 

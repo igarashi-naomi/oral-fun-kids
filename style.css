@@ -52,6 +52,12 @@ body {
   background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,.08);
 }
 .game-card:active { transform: scale(.95); }
+.game-grid .game-card:nth-child(1) { animation: enterUp .4s ease-out both; animation-delay: .05s; }
+.game-grid .game-card:nth-child(2) { animation: enterUp .4s ease-out both; animation-delay: .1s; }
+.game-grid .game-card:nth-child(3) { animation: enterUp .4s ease-out both; animation-delay: .15s; }
+.game-grid .game-card:nth-child(4) { animation: enterUp .4s ease-out both; animation-delay: .2s; }
+.game-grid .game-card:nth-child(5) { animation: enterUp .4s ease-out both; animation-delay: .25s; }
+.game-grid .game-card:nth-child(6) { animation: enterUp .4s ease-out both; animation-delay: .3s; }
 .game-icon { font-size: 44px; margin-bottom: 6px; }
 .game-name { font-size: 18px; font-weight: 900; line-height: 1.2; }
 .game-desc { font-size: 11px; color: #78716C; margin-top: 4px; }
@@ -777,6 +783,105 @@ lottie-player { margin: 0 auto; }
   pointer-events: none;
 }
 @keyframes rippleAnim { to { transform: scale(1); opacity: 0; } }
+
+/* ===== プロ品質アニメーション ===== */
+/* 画面遷移オーバーレイ */
+.anim-transition-overlay {
+  position: fixed; inset: 0; background: #F97316; z-index: 99999;
+  opacity: 0; transition: opacity .35s ease-in-out; pointer-events: none;
+}
+.anim-transition-active { opacity: 1; }
+.anim-transition-out { opacity: 0; transition: opacity .35s ease-in-out; }
+
+/* SVGキャラ（顔が揺れる） */
+.anim-mouth-char { animation: charSway 3s ease-in-out infinite; }
+@keyframes charSway { 0%,100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg); } }
+.anim-face { filter: drop-shadow(0 4px 8px rgba(0,0,0,.1)); }
+
+/* パタカラキャラバウンス */
+.anim-bounce-char {
+  display: inline-block;
+  animation: charBounce 0.6s ease-in-out infinite;
+}
+@keyframes charBounce {
+  0%,100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-15px) scale(1.1); }
+}
+
+/* 花火Canvas */
+.anim-celebration-canvas {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 9998;
+}
+
+/* ボタンリップル */
+.anim-ripple {
+  position: absolute; border-radius: 50%;
+  background: rgba(255,255,255,.35);
+  transform: scale(0); animation: rippleAnim .6s ease-out;
+  pointer-events: none;
+}
+
+/* カードめくりアニメーション */
+@keyframes cardFlip {
+  0% { transform: perspective(400px) rotateY(90deg); opacity: 0; }
+  50% { transform: perspective(400px) rotateY(-10deg); }
+  100% { transform: perspective(400px) rotateY(0); opacity: 1; }
+}
+.anim-card-flip { animation: cardFlip .6s ease-out; }
+
+/* 文字が1文字ずつ現れる */
+@keyframes textReveal {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+.anim-text-reveal { animation: textReveal .8s ease-out; }
+
+/* キラキラ回転 */
+@keyframes spinGlow {
+  0% { transform: rotate(0deg); filter: brightness(1); }
+  50% { filter: brightness(1.3); }
+  100% { transform: rotate(360deg); filter: brightness(1); }
+}
+.anim-spin-glow { animation: spinGlow 2s linear infinite; }
+
+/* ハートビート（重要な瞬間） */
+@keyframes heartbeat {
+  0%,100% { transform: scale(1); }
+  15% { transform: scale(1.15); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.1); }
+}
+.anim-heartbeat { animation: heartbeat 1.2s ease-in-out infinite; }
+
+/* ゆらゆら浮遊 */
+@keyframes float {
+  0%,100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-8px) rotate(2deg); }
+  75% { transform: translateY(5px) rotate(-2deg); }
+}
+.anim-float { animation: float 4s ease-in-out infinite; }
+
+/* 入場アニメーション（下から） */
+@keyframes enterUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.anim-enter-up { animation: enterUp .5s ease-out both; }
+.anim-enter-up-1 { animation-delay: .1s; }
+.anim-enter-up-2 { animation-delay: .2s; }
+.anim-enter-up-3 { animation-delay: .3s; }
+.anim-enter-up-4 { animation-delay: .4s; }
+
+/* ぷるぷる（注目してほしい時） */
+@keyframes wiggle {
+  0%,100% { transform: rotate(0); }
+  20% { transform: rotate(-5deg); }
+  40% { transform: rotate(5deg); }
+  60% { transform: rotate(-3deg); }
+  80% { transform: rotate(3deg); }
+}
+.anim-wiggle { animation: wiggle .5s ease-in-out; }
 
 /* ===== 実績バッジ ===== */
 .badge-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 12px 0; }
