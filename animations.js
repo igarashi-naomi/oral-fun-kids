@@ -39,17 +39,19 @@ const Anim = (() => {
       <ellipse cx="${cx+s*0.25}" cy="${cy+s*0.05}" rx="${s*0.08}" ry="${s*0.05}" fill="#FDBA74" opacity=".5">
         <animate attributeName="opacity" values=".3;.6;.3" dur="2s" repeatCount="indefinite"/>
       </ellipse>
-      <!-- 目 -->
+      <!-- 目（まんまる・やさしい） -->
       <g class="anim-eyes">
-        <ellipse cx="${cx-s*0.12}" cy="${cy-s*0.08}" rx="${s*0.04}" ry="${s*0.055}" fill="#1E293B">
-          <animate attributeName="ry" values="${s*0.055};${s*0.005};${s*0.055}" dur="4s" repeatCount="indefinite" begin="2s"/>
-        </ellipse>
-        <ellipse cx="${cx+s*0.12}" cy="${cy-s*0.08}" rx="${s*0.04}" ry="${s*0.055}" fill="#1E293B">
-          <animate attributeName="ry" values="${s*0.055};${s*0.005};${s*0.055}" dur="4s" repeatCount="indefinite" begin="2s"/>
-        </ellipse>
-        <!-- ハイライト -->
-        <circle cx="${cx-s*0.1}" cy="${cy-s*0.1}" r="${s*0.015}" fill="#fff"/>
-        <circle cx="${cx+s*0.14}" cy="${cy-s*0.1}" r="${s*0.015}" fill="#fff"/>
+        <circle cx="${cx-s*0.13}" cy="${cy-s*0.1}" r="${s*0.045}" fill="#1E293B">
+          <animate attributeName="r" values="${s*0.045};${s*0.005};${s*0.045}" dur="4s" repeatCount="indefinite" begin="2.5s"/>
+        </circle>
+        <circle cx="${cx+s*0.13}" cy="${cy-s*0.1}" r="${s*0.045}" fill="#1E293B">
+          <animate attributeName="r" values="${s*0.045};${s*0.005};${s*0.045}" dur="4s" repeatCount="indefinite" begin="2.5s"/>
+        </circle>
+        <!-- ハイライト（大きめでキラキラ） -->
+        <circle cx="${cx-s*0.11}" cy="${cy-s*0.12}" r="${s*0.02}" fill="#fff"/>
+        <circle cx="${cx+s*0.15}" cy="${cy-s*0.12}" r="${s*0.02}" fill="#fff"/>
+        <circle cx="${cx-s*0.14}" cy="${cy-s*0.08}" r="${s*0.01}" fill="#fff" opacity=".6"/>
+        <circle cx="${cx+s*0.12}" cy="${cy-s*0.08}" r="${s*0.01}" fill="#fff" opacity=".6"/>
       </g>
       <!-- 口 -->
       <ellipse cx="${cx}" cy="${cy+s*0.15}" rx="${m.rx}" ry="${m.ry}" fill="${m.color}" class="anim-mouth">
