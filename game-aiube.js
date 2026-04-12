@@ -98,9 +98,7 @@ const GameAiube = (() => {
         </div>
 
         <div class="aiube-content">
-          <div class="aiube-face-wrapper" id="aiube-face">
-            ${typeof Anim !== 'undefined' ? Anim.mouthChar(pose.char, 160) : `<div class="aiube-face" style="border-color:${pose.color}">${pose.face}</div>`}
-          </div>
+          <div class="aiube-face" style="border-color:${pose.color}" id="aiube-face">${pose.face}</div>
           <div class="aiube-char" style="color:${pose.color}">${pose.char}</div>
           <p class="aiube-instruction">${pose.instruction}</p>
           <div class="aiube-timer" id="aiube-timer">
