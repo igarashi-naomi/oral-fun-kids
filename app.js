@@ -117,7 +117,7 @@ const OralApp = (() => {
   }
 
   function getUnlockedStage() {
-    return streakData?.unlockedStage || 1;
+    return 5; // テスト用全解放
   }
 
   // 今日すでに体操を完了しているか
@@ -149,7 +149,7 @@ const OralApp = (() => {
     const brushDone = getBrushStatus();
 
     // === ミッション進捗を計算 ===
-    const missionStep = exerciseDone ? (brushDone ? 3 : 2) : 1;
+    const missionStep = 3; // テスト用全解放
 
     app.innerHTML = `
       <div class="home-screen">

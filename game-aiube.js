@@ -43,8 +43,8 @@ const GameAiube = (() => {
     },
   ];
 
-  const TOTAL_SETS = 3; // 3セット（あいうべ→パタカラ→あいうべ→パタカラ→あいうべ→完了）
-  const REPS_PER_SET = 3; // 3回×3セット（パタカラ含め約2分）
+  const TOTAL_SETS = 1; // 1セット（あいうべ3回→パタカラ1回→完了 約1.5分）
+  const REPS_PER_SET = 3; // あいうべ3回
 
   // パタカラフレーズ（ランダムで使用）
   const PATAKARA_PHRASES = [
@@ -153,7 +153,8 @@ const GameAiube = (() => {
         currentRep = 0;
         currentSet++;
         if (currentSet >= TOTAL_SETS) {
-          complete();
+          // 完了前にパタカラ1回
+          showPatakaraBeforeComplete();
           return;
         }
         // セット間休憩
@@ -237,6 +238,49 @@ const GameAiube = (() => {
     }
   }
 
+  function showPatakaraBeforeComplete() {
+    const phrase = shuffledPatakara[0];
+    showPatakaraScreenFinal(phrase);
+  }
+
+  function showPatakaraScreenFinal(phrase) {
+    const app = document.getElementById('app');
+    app.innerHTML = `
+      <div class="game-screen patakara-screen">
+        <div class="game-top-bar">
+          <button class="btn-back-game" onclick="OralApp.showHome()">◀ やめる</button>
+          <span class="game-progress">さいごのトレーニング！</span>
+        </div>
+        <div class="patakara-content">
+          <div class="patakara-character">${typeof Anim !== 'undefined' ? Anim.patakaraChar(phrase.icon, 80) : phrase.icon}</div>
+          <h2 class="patakara-title">${phrase.character}といっしょに！</h2>
+          <p class="patakara-instruction">おおきな声で3かいいってみよう！</p>
+          <div class="patakara-phrase" id="patakara-phrase">${phrase.text.replace('\n', '<br>')}</div>
+          <div class="patakara-counter"><span class="patakara-count" id="patakara-count">0</span> / 3かい</div>
+          <button class="patakara-say-btn" id="patakara-btn" onclick="GameAiube.sayPatakaraFinal()">🗣️ いえたらタップ！</button>
+        </div>
+      </div>
+    `;
+    GameAiube._patakaraFinalCount = 0;
+    GameAiube._currentPhraseFinal = phrase;
+    try { Voice.play(phrase.audio); } catch(e) {}
+  }
+
+  function sayPatakaraFinal() {
+    GameAiube._patakaraFinalCount++;
+    const countEl = document.getElementById('patakara-count');
+    if (countEl) countEl.textContent = GameAiube._patakaraFinalCount;
+    try { Sounds.tap(); Effects.sparkle(window.innerWidth/2, window.innerHeight*0.5, 10); Effects.vibrate([20]); } catch(e) {}
+
+    if (GameAiube._patakaraFinalCount >= 3) {
+      try { Sounds.correct(); Effects.confetti(window.innerWidth/2, window.innerHeight*0.3, 25); } catch(e) {}
+      const btn = document.getElementById('patakara-btn');
+      if (btn) { btn.textContent = 'かんりょう！🎉'; btn.onclick = () => complete(); }
+    } else {
+      try { Voice.play(GameAiube._currentPhraseFinal.audio); } catch(e) {}
+    }
+  }
+
   function resumeNextSet() {
     showPose();
   }
@@ -255,5 +299,5 @@ const GameAiube = (() => {
 
   function cleanup() { if (timer) { clearInterval(timer); timer = null; } }
 
-  return { start, resumeNextSet, finishEarly, cleanup, sayPatakara, _patakaraCount: 0, _currentPhrase: null };
+  return { start, resumeNextSet, finishEarly, cleanup, sayPatakara, sayPatakaraFinal, _patakaraCount: 0, _patakaraFinalCount: 0, _currentPhrase: null, _currentPhraseFinal: null };
 })();
