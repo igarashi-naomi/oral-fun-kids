@@ -25,7 +25,7 @@ body {
   font-size: 36px; font-weight: 900; color: #F97316;
   text-shadow: 2px 2px 0 #FDBA74; line-height: 1.2; margin: 8px 0;
 }
-.home-subtitle { font-size: 16px; color: #78716C; font-weight: 700; }
+.home-subtitle { font-size: 16px; color: #1E293B; font-weight: 700; text-shadow: 0 1px 2px rgba(255,255,255,.6); }
 
 /* レベルバー */
 .home-level-bar { margin: 12px 0; }
@@ -59,8 +59,8 @@ body {
 .game-grid .game-card:nth-child(5) { animation: enterUp .4s ease-out both; animation-delay: .25s; }
 .game-grid .game-card:nth-child(6) { animation: enterUp .4s ease-out both; animation-delay: .3s; }
 .game-icon { font-size: 44px; margin-bottom: 6px; }
-.game-name { font-size: 18px; font-weight: 900; line-height: 1.2; }
-.game-desc { font-size: 11px; color: #78716C; margin-top: 4px; }
+.game-name { font-size: 18px; font-weight: 900; line-height: 1.2; color: #1E293B !important; text-shadow: 0 1px 2px rgba(255,255,255,.8); }
+.game-desc { font-size: 11px; color: #475569 !important; margin-top: 4px; text-shadow: 0 1px 2px rgba(255,255,255,.8); }
 
 /* ロック状態 */
 .game-card-locked {
@@ -436,7 +436,7 @@ body {
 .mission-active { border-color: #F59E0B; background: #FFFBEB; box-shadow: 0 2px 12px rgba(245,158,11,.15); }
 .mission-completed-section { border-color: #86EFAC; background: #F0FDF4; opacity: .85; }
 .mission-section-locked { border-color: #E2E8F0; background: #F8FAFC; opacity: .5; }
-.mission-title { font-size: 16px; margin-bottom: 10px; }
+.mission-title { font-size: 16px; margin-bottom: 10px; color: #1E293B; }
 .mission-subtitle { font-size: 13px; color: #78716C; margin: -6px 0 10px; }
 
 .reward-section-inner { }
