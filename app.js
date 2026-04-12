@@ -648,14 +648,54 @@ const OralApp = (() => {
       </div>
     `;
 
-    // 2秒後にガチャ演出
+    // 2秒後にガチャ→くすっと→次へ
     setTimeout(() => {
       const card = Collection.drawCard();
       Collection.showGacha(card, () => {
-        // ガチャ後: 次のアクションへ
-        showPostComplete(gameType, isExercise);
+        // ガチャ後: くすっとフレーズを1つ表示
+        showKusutto(gameType, isExercise);
       });
     }, 2000);
+  }
+
+  // くすっとフレーズを1つ表示
+  function showKusutto(gameType, isExercise) {
+    // DRILL_DATAが読み込まれていない場合はスキップ
+    if (typeof DRILL_DATA === 'undefined' || !DRILL_DATA.kusutto) {
+      showPostComplete(gameType, isExercise);
+      return;
+    }
+    const items = DRILL_DATA.kusutto;
+    const item = items[Math.floor(Math.random() * items.length)];
+    const illust = (typeof DRILL_ILLUSTRATIONS !== 'undefined' && DRILL_ILLUSTRATIONS[item.illustration]) || '';
+
+    const app = document.getElementById('app');
+    app.innerHTML = `
+      <div class="complete-screen" style="background:#FFFBEB">
+        <div class="drill-card" onclick="OralApp._kusuttoReveal('${gameType}', ${isExercise})">
+          <div class="drill-illust-container">${illust}</div>
+          <p class="drill-text">${item.text}</p>
+          <div class="drill-punchline" id="kusutto-punchline" style="visibility:hidden">
+            <span class="drill-punchline-text">${item.punchline}</span>
+          </div>
+          <p class="drill-tap-hint" id="kusutto-hint">タップ！</p>
+        </div>
+      </div>
+    `;
+    try { Voice.play('kusu.wav'); } catch(e) {}
+  }
+
+  function _kusuttoReveal(gameType, isExercise) {
+    const pl = document.getElementById('kusutto-punchline');
+    const hint = document.getElementById('kusutto-hint');
+    if (pl && pl.style.visibility === 'hidden') {
+      pl.style.visibility = 'visible';
+      pl.classList.add('drill-punchline-reveal');
+      if (hint) hint.style.display = 'none';
+      try { Voice.play('hamigakou.wav'); Sounds.correct(); Effects.sparkle(window.innerWidth/2, window.innerHeight*0.5, 12); } catch(e) {}
+    } else {
+      showPostComplete(gameType, isExercise);
+    }
   }
 
   // ガチャ後の画面
@@ -686,7 +726,7 @@ const OralApp = (() => {
 
   return {
     start, showHome, openGame, logGameComplete, showComplete, showLockedMessage,
-    playReward, toggleDailyCheck, toNickname, getUnlockedStage,
+    playReward, toggleDailyCheck, toNickname, _kusuttoReveal, getUnlockedStage,
     get karteNo() { return karteNo; },
     get clinicCode() { return clinicCode; }
   };
