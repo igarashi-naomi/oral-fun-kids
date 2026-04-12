@@ -98,8 +98,9 @@ const ParentMode = (() => {
 
           <!-- がんばり表・健康ノート -->
           <div class="parent-section" style="display:flex;gap:8px;flex-wrap:wrap">
-            <button class="btn-game btn-game-next" onclick="HealthNote.show()">📋 おくちの健康ノート</button>
-            <button class="btn-game btn-game-home" onclick="ParentMode.printReport()">🖨️ がんばり表を印刷</button>
+            <button class="btn-game btn-game-next" onclick="QuestionnaireOralDev.show()">📋 おくちの もんしんひょう</button>
+            <button class="btn-game btn-game-next" onclick="HealthNote.show()">🏥 けんこうノート</button>
+            <button class="btn-game btn-game-home" onclick="ParentMode.printReport()">🖨️ がんばり表</button>
           </div>
         ` : '<p style="text-align:center;color:#94A3B8">まだ記録がありません</p>'}
 
