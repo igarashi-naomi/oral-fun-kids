@@ -17,6 +17,7 @@ const QuestionnaireOralDev = (() => {
       title: '🍼 成育歴（任意・わかる範囲で）',
       icon: '🍼',
       optional: true,
+      optionalNote: '正確でなくてもかまいません。発育段階での成長の様子をうかがっています。わかる範囲でのご協力をお願いいたします。',
       questions: [
         { id: 'breastfeed', label: '哺乳の方法は？', type: 'select', options: ['完全母乳', '混合（母乳+ミルク）', '完全ミルク', 'わからない・答えたくない'] },
         { id: 'breastfeed_duration', label: '哺乳瓶はいつまで？', type: 'select', options: ['6ヶ月未満', '6ヶ月〜1歳', '1歳〜1歳半', '1歳半〜2歳', '2歳以上', 'わからない・答えたくない'] },
@@ -154,7 +155,7 @@ const QuestionnaireOralDev = (() => {
       return `
         <details class="q-oral-section q-oral-optional">
           <summary class="q-oral-section-title">${sec.title} <span class="q-oral-optional-badge">任意</span></summary>
-          <p class="q-oral-optional-note">わかる範囲でかまいません。スキップしても大丈夫です。</p>
+          <p class="q-oral-optional-note">${sec.optionalNote || 'わかる範囲でかまいません。スキップしても大丈夫です。'}</p>
           ${sec.questions.map(q => renderQuestion(q)).join('')}
         </details>
       `;
