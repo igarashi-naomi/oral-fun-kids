@@ -25,7 +25,7 @@ body {
   font-size: 36px; font-weight: 900; color: #F97316;
   text-shadow: 2px 2px 0 #FDBA74; line-height: 1.2; margin: 8px 0;
 }
-.home-subtitle { font-size: 16px; color: #1E293B; font-weight: 700; text-shadow: 0 1px 2px rgba(255,255,255,.6); }
+.home-subtitle { font-size: 16px; color: #7C3AED; font-weight: 900; text-shadow: 0 2px 4px rgba(255,255,255,1); }
 
 /* レベルバー */
 .home-level-bar { margin: 12px 0; }
@@ -59,8 +59,8 @@ body {
 .game-grid .game-card:nth-child(5) { animation: enterUp .4s ease-out both; animation-delay: .25s; }
 .game-grid .game-card:nth-child(6) { animation: enterUp .4s ease-out both; animation-delay: .3s; }
 .game-icon { font-size: 44px; margin-bottom: 6px; }
-.game-name { font-size: 18px; font-weight: 900; line-height: 1.2; color: #1E293B !important; text-shadow: 0 1px 2px rgba(255,255,255,.8); }
-.game-desc { font-size: 11px; color: #475569 !important; margin-top: 4px; text-shadow: 0 1px 2px rgba(255,255,255,.8); }
+.game-name { font-size: 20px; font-weight: 900; line-height: 1.2; color: #1E293B !important; text-shadow: 0 2px 4px rgba(0,0,0,.3), 0 0 8px rgba(255,255,255,1); -webkit-text-stroke: 0.5px rgba(0,0,0,.1); }
+.game-desc { font-size: 12px; color: #7C3AED !important; margin-top: 4px; font-weight: 700; text-shadow: 0 1px 3px rgba(255,255,255,1); }
 
 /* ロック状態 */
 .game-card-locked {
@@ -88,15 +88,15 @@ body {
 }
 
 .game-card-aiube { border-color: #EF4444; }
-.game-card-aiube .game-name { color: #EF4444; }
+.game-card-aiube .game-name { color: #DC2626 !important; text-shadow: 0 2px 4px rgba(0,0,0,.2), 0 0 10px rgba(255,255,255,1); }
 .game-card-brushing { border-color: #3B82F6; }
-.game-card-brushing .game-name { color: #3B82F6; }
+.game-card-brushing .game-name { color: #1D4ED8 !important; text-shadow: 0 2px 4px rgba(0,0,0,.2), 0 0 10px rgba(255,255,255,1); }
 .game-card-blowing { border-color: #10B981; }
-.game-card-blowing .game-name { color: #10B981; }
+.game-card-blowing .game-name { color: #047857 !important; text-shadow: 0 2px 4px rgba(0,0,0,.2), 0 0 10px rgba(255,255,255,1); }
 .game-card-tongue { border-color: #F97316; }
-.game-card-tongue .game-name { color: #F97316; }
+.game-card-tongue .game-name { color: #C2410C !important; text-shadow: 0 2px 4px rgba(0,0,0,.2), 0 0 10px rgba(255,255,255,1); }
 .game-card-chewing { border-color: #8B5CF6; }
-.game-card-chewing .game-name { color: #8B5CF6; }
+.game-card-chewing .game-name { color: #6D28D9 !important; text-shadow: 0 2px 4px rgba(0,0,0,.2), 0 0 10px rgba(255,255,255,1); }
 .game-card-quiz { border-color: #0EA5E9; }
 .game-card-quiz .game-name { color: #0EA5E9; }
 
@@ -436,7 +436,7 @@ body {
 .mission-active { border-color: #F59E0B; background: #FFFBEB; box-shadow: 0 2px 12px rgba(245,158,11,.15); }
 .mission-completed-section { border-color: #86EFAC; background: #F0FDF4; opacity: .85; }
 .mission-section-locked { border-color: #E2E8F0; background: #F8FAFC; opacity: .5; }
-.mission-title { font-size: 16px; margin-bottom: 10px; color: #1E293B; }
+.mission-title { font-size: 17px; margin-bottom: 10px; color: #B45309; font-weight: 900; text-shadow: 0 1px 3px rgba(255,255,255,1); }
 .mission-subtitle { font-size: 13px; color: #78716C; margin: -6px 0 10px; }
 
 .reward-section-inner { }
