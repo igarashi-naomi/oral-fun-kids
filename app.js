@@ -43,6 +43,7 @@ const OralApp = (() => {
   // ご褒美ゲーム（体操完了後に解放）
   const REWARD_GAMES = [
     { gameId: 'quiz',   name: 'おくちクイズ', icon: '🧠', color: '#0EA5E9' },
+    { gameId: 'drill',  name: 'おくちドリル', icon: '📖', color: '#B45309' },
     { gameId: 'reward', name: 'ごほうびオセロ', icon: '🎁', color: '#7C3AED' },
   ];
 
@@ -404,6 +405,11 @@ const OralApp = (() => {
             <span class="game-name">${quizThemeName}</span>
             <span class="game-desc">${quizThemeDesc}</span>
           </button>
+          <button class="game-card game-card-drill" onclick="OralApp.openGame('drill')">
+            <span class="game-icon">📖</span>
+            <span class="game-name">おくちドリル</span>
+            <span class="game-desc">くすっ＋算数理科栃木英語</span>
+          </button>
           <button class="game-card game-card-reward ${canPlayOsero ? '' : 'game-card-locked'}"
             onclick="${canPlayOsero ? 'OralApp.playReward()' : ''}">
             ${!canPlayOsero ? '<span class="game-lock">🔒</span>' : ''}
@@ -531,6 +537,7 @@ const OralApp = (() => {
       case 'tongue': GameTongue.start(); break;
       case 'chewing': GameChewing.start(); break;
       case 'quiz': GameQuiz.start(); break;
+      case 'drill': GameDrill.start(); break;
     }
   }
 

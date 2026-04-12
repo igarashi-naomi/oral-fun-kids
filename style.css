@@ -529,6 +529,84 @@ body {
 .quiz-final-score { margin: 16px 0; }
 .quiz-final-correct { font-size: 48px; font-weight: 900; color: #F97316; }
 
+/* ===== おくちドリル ===== */
+.drill-screen { background: #FFFBEB !important; }
+.drill-select-title { text-align: center; font-size: 22px; font-weight: 900; color: #B45309; margin: 12px 0; }
+.drill-mode-grid { display: flex; flex-direction: column; gap: 10px; margin: 16px 0; }
+.drill-mode-btn {
+  display: flex; align-items: center; gap: 14px; padding: 14px 18px;
+  border-radius: 16px; border: 3px solid; background: #fff; cursor: pointer;
+  transition: transform .15s;
+}
+.drill-mode-btn:active { transform: scale(.97); }
+.drill-mode-kusutto { border-color: #F97316; }
+.drill-mode-math { border-color: #3B82F6; }
+.drill-mode-science { border-color: #10B981; }
+.drill-mode-tochigi { border-color: #EF4444; }
+.drill-mode-english { border-color: #8B5CF6; }
+.drill-mode-icon { font-size: 36px; }
+.drill-mode-name { font-size: 17px; font-weight: 900; }
+.drill-mode-desc { font-size: 12px; color: #64748B; }
+
+/* くすっドリルカード */
+.drill-card {
+  margin: 16px auto; padding: 24px 20px; max-width: 360px;
+  background: #fff; border: 4px solid #F97316; border-radius: 24px;
+  text-align: center; cursor: pointer; transition: transform .15s;
+  box-shadow: 0 4px 20px rgba(249,115,22,.15); min-height: 340px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.drill-card:active { transform: scale(.97); }
+.drill-illust-container { margin-bottom: 16px; }
+.drill-illust { width: 150px; height: 150px; }
+.drill-text { font-size: 22px; font-weight: 900; color: #1E293B; line-height: 1.5; margin: 8px 0; }
+.drill-punchline {
+  margin-top: 12px; padding: 12px 24px;
+  background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+  border: 3px solid #F59E0B; border-radius: 16px;
+}
+.drill-punchline-text { font-size: 28px; font-weight: 900; color: #B45309; }
+.drill-punchline-reveal { animation: scaleIn .4s ease-out; }
+.drill-tap-hint { font-size: 14px; color: #94A3B8; margin-top: 12px; animation: blink 1s ease-in-out infinite; }
+.drill-category-badge {
+  text-align: center; margin-top: 8px; font-size: 12px; color: #94A3B8;
+  padding: 4px 12px; background: #F8FAFC; border-radius: 8px; display: inline-block;
+}
+
+/* ドリル学習クイズ */
+.drill-quiz-card { margin: 20px auto; max-width: 380px; }
+.drill-quiz-q {
+  font-size: 18px; font-weight: 700; color: #1E293B; line-height: 1.6;
+  padding: 20px; background: #fff; border: 3px solid #B45309; border-radius: 20px;
+  text-align: center; margin-bottom: 16px;
+}
+.drill-quiz-options { display: flex; flex-direction: column; gap: 12px; }
+.drill-quiz-btn {
+  display: flex; align-items: center; gap: 14px; padding: 16px 20px;
+  border-radius: 16px; border: 3px solid; background: #fff; cursor: pointer;
+  font-size: 17px; font-weight: 700; transition: transform .15s;
+}
+.drill-quiz-btn:active { transform: scale(.97); }
+.drill-quiz-a { border-color: #3B82F6; }
+.drill-quiz-b { border-color: #EF4444; }
+.drill-quiz-label {
+  width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center;
+  justify-content: center; font-weight: 900; color: #fff; flex-shrink: 0;
+}
+.drill-quiz-a .drill-quiz-label { background: #3B82F6; }
+.drill-quiz-b .drill-quiz-label { background: #EF4444; }
+.drill-result { padding: 24px; margin: 20px auto; border-radius: 20px; text-align: center; max-width: 380px; }
+.drill-result-correct { background: #D1FAE5; border: 3px solid #10B981; }
+.drill-result-wrong { background: #FEE2E2; border: 3px solid #EF4444; }
+.drill-result-icon { font-size: 32px; font-weight: 900; }
+.drill-result-correct .drill-result-icon { color: #059669; }
+.drill-result-wrong .drill-result-icon { color: #DC2626; }
+.drill-result-answer { font-size: 18px; margin: 8px 0; }
+.drill-result-explain { font-size: 14px; color: #475569; line-height: 1.6; margin-top: 12px; padding: 12px; background: #FFFBEB; border-radius: 12px; }
+
+.game-card-drill { border-color: #B45309; }
+.game-card-drill .game-name { color: #B45309; }
+
 /* ===== 衛生士メッセージ ===== */
 .dh-message-section { margin: 12px 0; }
 .dh-message-title { font-size: 16px; color: #EC4899; margin-bottom: 8px; }
