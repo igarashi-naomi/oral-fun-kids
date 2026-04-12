@@ -9,20 +9,18 @@ const QuestionnaireOralDev = (() => {
       icon: '👶',
       questions: [
         { id: 'age', label: 'おこさまの年齢', type: 'select', options: ['0〜1歳', '2歳', '3歳', '4歳', '5歳', '6歳', '7歳', '8歳', '9歳', '10歳', '11歳', '12歳', '13歳', '14歳'] },
-        { id: 'gender', label: '性別', type: 'select', options: ['男の子', '女の子'] },
-        { id: 'birth_weight', label: '出生時の体重', type: 'select', options: ['2500g未満（低体重）', '2500g〜3999g（正常）', '4000g以上', 'わからない'] },
-        { id: 'birth_type', label: '出産方法', type: 'select', options: ['普通分娩', '帝王切開', 'その他', 'わからない'] },
+        { id: 'gender', label: '性別', type: 'select', options: ['男の子', '女の子', '答えたくない'] },
       ]
     },
     {
       id: 'feeding',
-      title: '🍼 哺乳・離乳の歴史',
+      title: '🍼 成育歴（任意・わかる範囲で）',
       icon: '🍼',
+      optional: true,
       questions: [
-        { id: 'breastfeed', label: '母乳育児をしましたか？', type: 'select', options: ['完全母乳', '混合（母乳+ミルク）', '完全ミルク'] },
-        { id: 'breastfeed_duration', label: '母乳・哺乳瓶はいつまで？', type: 'select', options: ['6ヶ月未満', '6ヶ月〜1歳', '1歳〜1歳半', '1歳半〜2歳', '2歳以上', '該当なし'] },
-        { id: 'weaning_start', label: '離乳食はいつ始めましたか？', type: 'select', options: ['5ヶ月頃', '6ヶ月頃', '7ヶ月以降', 'わからない'] },
-        { id: 'weaning_trouble', label: '離乳食で困ったことは？', type: 'multi', options: ['特になし', '丸飲みが多かった', '偏食がひどかった', 'なかなか食べなかった', 'かたい物を嫌がった', 'むせることが多かった'] },
+        { id: 'breastfeed', label: '哺乳の方法は？', type: 'select', options: ['完全母乳', '混合（母乳+ミルク）', '完全ミルク', 'わからない・答えたくない'] },
+        { id: 'breastfeed_duration', label: '哺乳瓶はいつまで？', type: 'select', options: ['6ヶ月未満', '6ヶ月〜1歳', '1歳〜1歳半', '1歳半〜2歳', '2歳以上', 'わからない・答えたくない'] },
+        { id: 'weaning_trouble', label: '離乳食で困ったことは？', type: 'multi', options: ['特になし', '丸飲みが多かった', '偏食がひどかった', 'なかなか食べなかった', 'かたい物を嫌がった', 'むせることが多かった', 'わからない'] },
       ]
     },
     {
@@ -152,6 +150,15 @@ const QuestionnaireOralDev = (() => {
   }
 
   function renderSection(sec) {
+    if (sec.optional) {
+      return `
+        <details class="q-oral-section q-oral-optional">
+          <summary class="q-oral-section-title">${sec.title} <span class="q-oral-optional-badge">任意</span></summary>
+          <p class="q-oral-optional-note">わかる範囲でかまいません。スキップしても大丈夫です。</p>
+          ${sec.questions.map(q => renderQuestion(q)).join('')}
+        </details>
+      `;
+    }
     return `
       <div class="q-oral-section">
         <h3 class="q-oral-section-title">${sec.title}</h3>

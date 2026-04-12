@@ -759,6 +759,11 @@ lottie-player { margin: 0 auto; }
 .q-oral-check { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: #F0F9FF; border: 2px solid #93C5FD; border-radius: 12px; font-size: 15px; cursor: pointer; color: #1E293B; }
 .q-oral-check:has(input:checked) { background: #DBEAFE; border-color: #3B82F6; font-weight: 700; }
 .q-oral-check input { width: 22px; height: 22px; accent-color: #3B82F6; }
+.q-oral-optional { border-style: dashed !important; border-color: #CBD5E1 !important; }
+.q-oral-optional summary { cursor: pointer; list-style: none; }
+.q-oral-optional summary::marker { display: none; }
+.q-oral-optional-badge { font-size: 11px; padding: 2px 8px; background: #F1F5F9; border: 1px solid #CBD5E1; border-radius: 8px; color: #64748B; margin-left: 8px; }
+.q-oral-optional-note { font-size: 13px; color: #64748B; margin-bottom: 12px; font-style: italic; }
 .q-oral-submit { margin: 24px 0; }
 .q-oral-privacy { text-align: center; font-size: 12px; color: #64748B; margin-top: 12px; }
 .q-oral-complete { text-align: center; padding: 40px 20px; border-radius: 20px; margin: 40px 0; }
