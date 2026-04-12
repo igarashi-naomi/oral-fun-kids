@@ -266,8 +266,8 @@ const GameQuiz = (() => {
   function answer(idx) {
     const q = questions[currentQuestionIdx];
     const correct = idx === q.a;
-    if (correct) { correctCount++; try { Sounds.correct(); } catch(e) {} }
-    else { try { Sounds.wrong(); } catch(e) {} }
+    if (correct) { correctCount++; try { Sounds.correct(); Voice.correct(); } catch(e) {} }
+    else { try { Sounds.wrong(); Voice.wrong(); } catch(e) {} }
 
     const app = document.getElementById('app');
     const color = q.color || currentCategory.color;

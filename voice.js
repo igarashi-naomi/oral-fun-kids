@@ -1,118 +1,57 @@
-// 音声ナレーション — Web Speech Synthesis API
-// iOS/Androidの高品質日本語音声を使用
+// 音声ナレーション — VOICEVOX収録WAVファイル再生
 const Voice = (() => {
-  let enabled = false; // デフォルトOFF（機械音声が怖い子供もいるため）
-  let currentUtterance = null;
+  let enabled = true; // プロ音声なのでデフォルトON
+  const cache = {};
 
   function isEnabled() {
     const saved = localStorage.getItem('oralFunVoice');
     if (saved !== null) enabled = saved === '1';
-    return enabled && 'speechSynthesis' in window;
+    return enabled;
   }
 
   function toggle() {
     enabled = !enabled;
     localStorage.setItem('oralFunVoice', enabled ? '1' : '0');
-    if (!enabled) stop();
     return enabled;
   }
 
   function stop() {
-    if ('speechSynthesis' in window) {
-      speechSynthesis.cancel();
-    }
-    currentUtterance = null;
+    Object.values(cache).forEach(a => { try { a.pause(); a.currentTime = 0; } catch(e) {} });
   }
 
-  // 日本語音声を取得（高品質を優先）
-  function getJaVoice() {
-    const voices = speechSynthesis.getVoices();
-    // 優先順: Enhanced > Premium > 標準の日本語女性音声
-    const prefs = [
-      v => v.lang.startsWith('ja') && /enhanced|premium/i.test(v.name),
-      v => v.lang.startsWith('ja') && /female|女/i.test(v.name),
-      v => v.lang.startsWith('ja') && v.localService,
-      v => v.lang.startsWith('ja'),
-    ];
-    for (const pref of prefs) {
-      const found = voices.find(pref);
-      if (found) return found;
-    }
-    return null;
-  }
-
-  // テキストを読み上げ
-  function speak(text, options = {}) {
+  // WAVファイル再生
+  function play(filename) {
     if (!isEnabled()) return Promise.resolve();
-    if (!('speechSynthesis' in window)) return Promise.resolve();
-
     return new Promise(resolve => {
-      // 前の発話をキャンセル
-      speechSynthesis.cancel();
-
-      const u = new SpeechSynthesisUtterance(text);
-      u.lang = 'ja-JP';
-      u.rate = options.rate || 0.9;  // やや遅め（子供向け）
-      u.pitch = options.pitch || 1.2; // やや高め（子供向けの明るい声）
-      u.volume = options.volume || 0.8;
-
-      const voice = getJaVoice();
-      if (voice) u.voice = voice;
-
-      u.onend = () => { currentUtterance = null; resolve(); };
-      u.onerror = () => { currentUtterance = null; resolve(); };
-
-      currentUtterance = u;
-      speechSynthesis.speak(u);
+      if (!cache[filename]) {
+        cache[filename] = new Audio(`audio/${filename}`);
+      }
+      const audio = cache[filename];
+      audio.currentTime = 0;
+      audio.onended = resolve;
+      audio.onerror = resolve;
+      audio.play().catch(resolve);
     });
   }
 
-  // あいうべ体操用の掛け声
+  // あいうべ体操
   function aiube(char) {
-    const phrases = {
-      'あ': 'おおきく あー！',
-      'い': 'よこに いー！',
-      'う': 'まえに うー！',
-      'べ': 'べろを べー！',
-    };
-    return speak(phrases[char] || char, { rate: 0.8, pitch: 1.3 });
+    const map = { 'あ': 'pose-a.wav', 'い': 'pose-i.wav', 'う': 'pose-u.wav', 'べ': 'pose-be.wav' };
+    return play(map[char] || 'pose-a.wav');
   }
 
-  // カウントダウン読み上げ
+  // カウントダウン
   function countdown(num) {
-    if (num <= 3 && num > 0) {
-      return speak(String(num), { rate: 1.0, pitch: 1.1 });
-    }
+    if (num === 3) return play('countdown-3.wav');
+    if (num === 2) return play('countdown-2.wav');
+    if (num === 1) return play('countdown-1.wav');
     return Promise.resolve();
   }
 
-  // 正解・不正解
-  function correct() {
-    const phrases = ['せいかい！', 'すごい！', 'やったね！', 'その通り！'];
-    return speak(phrases[Math.floor(Math.random() * phrases.length)], { rate: 1.0, pitch: 1.4 });
-  }
+  function correct() { return play('correct.wav'); }
+  function wrong() { return play('wrong.wav'); }
+  function complete() { return play('complete.wav'); }
+  function guide() { return play('start.wav'); }
 
-  function wrong() {
-    const phrases = ['ざんねん', 'おしかったね', 'つぎはできるよ！'];
-    return speak(phrases[Math.floor(Math.random() * phrases.length)], { rate: 0.9, pitch: 1.0 });
-  }
-
-  // 完了ファンファーレ
-  function complete() {
-    const phrases = ['やったー！すごいね！', 'クリア！がんばったね！', 'かんぺき！えらいよ！'];
-    return speak(phrases[Math.floor(Math.random() * phrases.length)], { rate: 0.9, pitch: 1.3 });
-  }
-
-  // 案内・ガイダンス
-  function guide(text) {
-    return speak(text, { rate: 0.85, pitch: 1.2 });
-  }
-
-  // 音声リスト初期化（一部ブラウザで必要）
-  if ('speechSynthesis' in window) {
-    speechSynthesis.getVoices();
-    speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
-  }
-
-  return { speak, aiube, countdown, correct, wrong, complete, guide, stop, toggle, isEnabled };
+  return { play, aiube, countdown, correct, wrong, complete, guide, stop, toggle, isEnabled };
 })();

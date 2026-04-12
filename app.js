@@ -609,7 +609,7 @@ const OralApp = (() => {
 
   // 完了画面 — 体操完了後は「つぎは はみがきチェック！」へ誘導
   function showComplete(gameType, score) {
-    try { Sounds.fanfare(); } catch(e) {}
+    try { Sounds.fanfare(); Voice.complete(); } catch(e) {}
     try { Effects.fullConfetti(); } catch(e) {}
     const app = document.getElementById('app');
     const theme = Themes.getTheme() || {};

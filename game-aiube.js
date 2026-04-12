@@ -97,10 +97,8 @@ const GameAiube = (() => {
       </div>
     `;
 
-    // 音声ナレーション（ONの場合のみ）
-    try { Voice.aiube(pose.char); } catch(e) {}
-    // ポーズ切替時の楽しい効果音
-    try { Sounds.tap(); } catch(e) {}
+    // VOICEVOX音声（「おおきく あー！」等）
+    try { Voice.aiube(pose.char); Sounds.tap(); } catch(e) {}
 
     startCountdown(pose);
   }
@@ -111,7 +109,7 @@ const GameAiube = (() => {
       countdown--;
       const el = document.getElementById('aiube-countdown');
       if (el) el.textContent = countdown;
-      try { Sounds.tick(); } catch(e) {}
+      try { Sounds.tick(); Voice.countdown(countdown); } catch(e) {}
 
       // フェイスのパルスアニメーション強化
       const face = document.getElementById('aiube-face');
