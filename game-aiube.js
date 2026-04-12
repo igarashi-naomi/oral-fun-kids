@@ -43,8 +43,20 @@ const GameAiube = (() => {
     },
   ];
 
-  const TOTAL_SETS = 1; // 1セットで完了（毎日続けやすい）
-  const REPS_PER_SET = 5; // 5回×1セット=約1分
+  const TOTAL_SETS = 3; // 3セット（あいうべ→パタカラ→あいうべ→パタカラ→あいうべ→完了）
+  const REPS_PER_SET = 3; // 3回×3セット（パタカラ含め約2分）
+
+  // パタカラフレーズ（ランダムで使用）
+  const PATAKARA_PHRASES = [
+    { text: 'パンダのたからもの！', icon: '🐼', audio: 'patakara-panda.wav', character: 'パンダ' },
+    { text: 'ラララレモン！', icon: '🍋', audio: 'patakara-lemon.wav', character: 'レモンくん' },
+    { text: 'カラスのパンたべた！', icon: '🐦‍⬛', audio: 'patakara-karasu.wav', character: 'カラス' },
+    { text: 'パパたかラッパ！', icon: '🎺', audio: 'patakara-papa.wav', character: 'パパ' },
+    { text: 'パラパラたらこ！', icon: '🐙', audio: 'patakara-tarako.wav', character: 'たらこ' },
+    { text: 'タラコパスタからい！', icon: '🍝', audio: 'patakara-pasta.wav', character: 'パスタ' },
+    { text: 'なまむぎ なまごめ\nなまたまご！', icon: '🥚', audio: 'patakara-egg.wav', character: 'たまごちゃん' },
+  ];
+  let shuffledPatakara = [];
 
   let currentPose = 0;
   let currentRep = 0;
@@ -59,6 +71,8 @@ const GameAiube = (() => {
     currentRep = 0;
     currentSet = 0;
     startTime = Date.now();
+    // パタカラフレーズをシャッフル
+    shuffledPatakara = [...PATAKARA_PHRASES].sort(() => Math.random() - 0.5);
     showPose();
   }
 
@@ -151,13 +165,76 @@ const GameAiube = (() => {
   }
 
   function showBreak() {
-    BreakQuiz.showBreakWithQuiz(
-      `${currentSet}セットめ おわり！`,
-      (action) => {
-        if (action === 'continue') resumeNextSet();
-        else finishEarly();
+    // セット間にパタカラフレーズを練習
+    const phraseIdx = (currentSet - 1) % shuffledPatakara.length;
+    const phrase = shuffledPatakara[phraseIdx];
+    showPatakaraScreen(phrase);
+  }
+
+  function showPatakaraScreen(phrase) {
+    const app = document.getElementById('app');
+    app.innerHTML = `
+      <div class="game-screen patakara-screen">
+        <div class="game-top-bar">
+          <button class="btn-back-game" onclick="OralApp.showHome()">◀ やめる</button>
+          <span class="game-progress">${currentSet}/${TOTAL_SETS}セット</span>
+        </div>
+
+        <div class="patakara-content">
+          <div class="patakara-character">${phrase.icon}</div>
+          <h2 class="patakara-title">${phrase.character}といっしょに！</h2>
+          <p class="patakara-instruction">おおきな声で3かいいってみよう！</p>
+
+          <div class="patakara-phrase" id="patakara-phrase">
+            ${phrase.text.replace('\n', '<br>')}
+          </div>
+
+          <div class="patakara-counter">
+            <span class="patakara-count" id="patakara-count">0</span> / 3かい
+          </div>
+
+          <button class="patakara-say-btn" id="patakara-btn" onclick="GameAiube.sayPatakara()">
+            🗣️ いえたらタップ！
+          </button>
+        </div>
+      </div>
+    `;
+
+    GameAiube._patakaraCount = 0;
+    GameAiube._currentPhrase = phrase;
+
+    // 音声再生
+    try { Voice.play(phrase.audio); } catch(e) {}
+  }
+
+  function sayPatakara() {
+    GameAiube._patakaraCount++;
+    const countEl = document.getElementById('patakara-count');
+    if (countEl) countEl.textContent = GameAiube._patakaraCount;
+
+    try {
+      Sounds.tap();
+      Effects.sparkle(window.innerWidth / 2, window.innerHeight * 0.5, 10);
+      Effects.vibrate([20]);
+    } catch(e) {}
+
+    if (GameAiube._patakaraCount >= 3) {
+      // パタカラ完了 → エフェクト → 次のセットへ
+      try {
+        Sounds.correct();
+        Effects.confetti(window.innerWidth / 2, window.innerHeight * 0.3, 25);
+        Effects.scorePopup('すごい！', window.innerWidth / 2 - 30, window.innerHeight * 0.2, '#F97316');
+      } catch(e) {}
+
+      const btn = document.getElementById('patakara-btn');
+      if (btn) {
+        btn.textContent = 'つぎへ →';
+        btn.onclick = () => resumeNextSet();
       }
-    );
+    } else {
+      // もう一回音声再生
+      try { Voice.play(GameAiube._currentPhrase.audio); } catch(e) {}
+    }
   }
 
   function resumeNextSet() {
@@ -178,5 +255,5 @@ const GameAiube = (() => {
 
   function cleanup() { if (timer) { clearInterval(timer); timer = null; } }
 
-  return { start, resumeNextSet, finishEarly, cleanup };
+  return { start, resumeNextSet, finishEarly, cleanup, sayPatakara, _patakaraCount: 0, _currentPhrase: null };
 })();
