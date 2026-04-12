@@ -96,9 +96,10 @@ const ParentMode = (() => {
             </div>
           </div>
 
-          <!-- がんばり表PDF出力 -->
-          <div class="parent-section">
-            <button class="btn-game btn-game-next" onclick="ParentMode.printReport()">🖨️ がんばり表を印刷</button>
+          <!-- がんばり表・健康ノート -->
+          <div class="parent-section" style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn-game btn-game-next" onclick="HealthNote.show()">📋 おくちの健康ノート</button>
+            <button class="btn-game btn-game-home" onclick="ParentMode.printReport()">🖨️ がんばり表を印刷</button>
           </div>
         ` : '<p style="text-align:center;color:#94A3B8">まだ記録がありません</p>'}
 

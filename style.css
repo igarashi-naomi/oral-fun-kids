@@ -691,6 +691,58 @@ lottie-player { margin: 0 auto; }
 .badge-name-big { font-size: 28px; font-weight: 900; color: #F97316; }
 .badge-desc { font-size: 16px; color: #475569; margin-top: 8px; }
 
+/* ===== おくちの健康ノート ===== */
+.health-note-screen { padding: 12px 16px; max-width: 480px; margin: 0 auto; padding-bottom: 80px; }
+.hn-section { margin: 16px 0; padding: 14px; background: #fff; border-radius: 16px; border: 2px solid #E2E8F0; }
+.hn-section-title { font-size: 16px; margin-bottom: 10px; color: #475569; }
+.hn-empty { text-align: center; color: #94A3B8; font-size: 14px; padding: 12px; }
+.hn-empty small { display: block; margin-top: 4px; }
+
+/* 検査推移 */
+.hn-eval-summary { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 12px; margin-bottom: 12px; }
+.hn-eval-alert { background: #FEF2F2; border: 2px solid #FECACA; }
+.hn-eval-ok { background: #F0FDF4; border: 2px solid #BBF7D0; }
+.hn-eval-icon { font-size: 28px; }
+.hn-eval-summary strong { display: block; font-size: 15px; }
+.hn-eval-summary span { font-size: 13px; color: #64748B; }
+.hn-eval-summary small { display: block; font-size: 12px; color: #94A3B8; margin-top: 2px; }
+.hn-chart { display: flex; align-items: flex-end; gap: 8px; height: 100px; padding: 8px 0; }
+.hn-chart-bar { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; position: relative; }
+.hn-chart-fill { width: 100%; border-radius: 4px 4px 0 0; position: absolute; bottom: 20px; min-height: 4px; }
+.hn-chart-label { position: absolute; bottom: 0; font-size: 10px; color: #94A3B8; }
+.hn-chart-value { position: absolute; bottom: 22px; font-size: 11px; font-weight: 700; z-index: 1; }
+.hn-items-list { margin-top: 8px; }
+.hn-items-title { font-size: 13px; color: #64748B; margin-bottom: 4px; }
+.hn-item-tag { display: inline-block; font-size: 12px; padding: 3px 10px; background: #FEF2F2; border: 1px solid #FECACA; border-radius: 12px; margin: 2px; color: #DC2626; }
+
+/* DHアドバイス */
+.hn-advice-card { padding: 14px; background: #EFF6FF; border: 2px solid #BFDBFE; border-radius: 14px; }
+.hn-advice-from { font-size: 13px; color: #1E40AF; font-weight: 700; margin-bottom: 6px; }
+.hn-advice-body { font-size: 15px; line-height: 1.7; color: #1E293B; }
+
+/* おすすめグッズ */
+.hn-products-grid { display: flex; flex-direction: column; gap: 8px; }
+.hn-product-card { display: flex; align-items: center; gap: 12px; padding: 10px; background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 12px; }
+.hn-product-icon { font-size: 28px; }
+.hn-product-info strong { display: block; font-size: 14px; }
+.hn-product-info small { font-size: 12px; color: #64748B; }
+
+/* 心配ごと */
+.hn-concerns-list { display: flex; flex-direction: column; gap: 8px; }
+.hn-concern-card { display: flex; align-items: flex-start; gap: 12px; padding: 10px; background: #FEF2F2; border: 1px solid #FECACA; border-radius: 12px; }
+.hn-concern-icon { font-size: 24px; }
+.hn-concern-card strong { display: block; font-size: 14px; color: #DC2626; }
+.hn-concern-card p { font-size: 13px; color: #475569; margin-top: 2px; }
+
+/* 問診表 */
+.hn-questionnaire { margin-top: 8px; }
+.hn-q-intro { font-size: 13px; color: #64748B; margin-bottom: 12px; text-align: center; }
+.hn-q-item { margin-bottom: 10px; }
+.hn-q-item label { display: block; font-size: 14px; font-weight: 700; margin-bottom: 4px; color: #475569; }
+.hn-q-select { width: 100%; padding: 10px; border: 2px solid #CBD5E1; border-radius: 10px; font-size: 15px; background: #fff; }
+.hn-q-textarea { width: 100%; padding: 10px; border: 2px solid #CBD5E1; border-radius: 10px; font-size: 15px; resize: vertical; }
+.hn-q-saved { text-align: center; font-size: 12px; color: #94A3B8; margin-top: 8px; }
+
 /* ===== ストーリー ===== */
 .story-screen {
   min-height: 100dvh; display: flex; flex-direction: column; align-items: center;
