@@ -116,7 +116,9 @@ const OralApp = (() => {
   }
 
   function getUnlockedStage() {
-    return streakData?.unlockedStage || 1;
+    // テストモード: 全ステージ解放（確認後に戻す）
+    return 5;
+    // return streakData?.unlockedStage || 1;
   }
 
   // 今日すでに体操を完了しているか

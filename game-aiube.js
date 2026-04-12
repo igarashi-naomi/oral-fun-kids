@@ -43,8 +43,8 @@ const GameAiube = (() => {
     },
   ];
 
-  const TOTAL_SETS = 3; // 目標セット数
-  const REPS_PER_SET = 5; // 5回×3セット=短くて集中できる
+  const TOTAL_SETS = 1; // 1セットで完了（毎日続けやすい）
+  const REPS_PER_SET = 5; // 5回×1セット=約1分
 
   let currentPose = 0;
   let currentRep = 0;

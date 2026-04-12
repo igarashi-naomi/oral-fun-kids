@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400">
+  <!-- 体 (スーツ) -->
+  <rect x="90" y="220" width="120" height="140" rx="20" fill="#1E293B"/>
+  <!-- ネクタイ -->
+  <polygon points="150,230 140,300 150,310 160,300" fill="#DC2626"/>
+  <!-- 白シャツ襟 -->
+  <path d="M120,225 L150,245 L180,225" fill="none" stroke="white" stroke-width="4"/>
+
+  <!-- 顔 -->
+  <ellipse cx="150" cy="160" rx="65" ry="75" fill="#FDDCB5"/>
+
+  <!-- ハゲ頭 + 横の毛 -->
+  <ellipse cx="150" cy="120" rx="70" ry="50" fill="#FDDCB5"/>
+  <!-- 横の髪（少し） -->
+  <path d="M82,140 Q75,110 90,100" fill="none" stroke="#94A3B8" stroke-width="8" stroke-linecap="round"/>
+  <path d="M218,140 Q225,110 210,100" fill="none" stroke="#94A3B8" stroke-width="8" stroke-linecap="round"/>
+
+  <!-- メガネ -->
+  <circle cx="125" cy="155" r="22" fill="none" stroke="#475569" stroke-width="4"/>
+  <circle cx="175" cy="155" r="22" fill="none" stroke="#475569" stroke-width="4"/>
+  <line x1="147" y1="155" x2="153" y2="155" stroke="#475569" stroke-width="3"/>
+  <line x1="103" y1="155" x2="85" y2="148" stroke="#475569" stroke-width="3"/>
+  <line x1="197" y1="155" x2="215" y2="148" stroke="#475569" stroke-width="3"/>
+
+  <!-- 目（メガネの奥で小さい） -->
+  <circle cx="125" cy="157" r="4" fill="#1E293B"/>
+  <circle cx="175" cy="157" r="4" fill="#1E293B"/>
+
+  <!-- 口（スピーチ中＝開いてる） -->
+  <ellipse cx="150" cy="195" rx="18" ry="12" fill="#7C2D12"/>
+  <ellipse cx="150" cy="190" rx="14" ry="4" fill="white"/>
+
+  <!-- ヒゲ（ちょび髭） -->
+  <path d="M132,183 Q140,188 150,185 Q160,188 168,183" fill="none" stroke="#64748B" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- マイク（スピーチ中） -->
+  <rect x="215" y="180" width="8" height="50" rx="3" fill="#475569"/>
+  <ellipse cx="219" cy="178" rx="12" ry="14" fill="#1E293B"/>
+  <ellipse cx="219" cy="178" rx="8" ry="10" fill="#475569"/>
+
+  <!-- 手 -->
+  <ellipse cx="85" cy="300" rx="18" ry="15" fill="#FDDCB5"/>
+  <ellipse cx="220" cy="195" rx="15" ry="12" fill="#FDDCB5"/>
+
+  <!-- 吹き出し -->
+  <rect x="10" y="20" width="200" height="60" rx="15" fill="white" stroke="#E2E8F0" stroke-width="3"/>
+  <polygon points="120,80 140,80 130,100" fill="white" stroke="#E2E8F0" stroke-width="3"/>
+  <rect x="118" y="77" width="24" height="6" fill="white"/>
+  <text x="110" y="55" text-anchor="middle" font-size="14" font-family="sans-serif" font-weight="bold" fill="#475569">えー、みなさん…</text>
+
+  <!-- ZZZ（聞いてる子供は寝てる表現） -->
+  <text x="255" y="40" font-size="20" fill="#94A3B8" transform="rotate(15 255 40)">Z</text>
+  <text x="270" y="25" font-size="16" fill="#CBD5E1" transform="rotate(15 270 25)">z</text>
+  <text x="280" y="15" font-size="12" fill="#E2E8F0" transform="rotate(15 280 15)">z</text>
+</svg>
