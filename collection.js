@@ -27,7 +27,7 @@ const Collection = (() => {
       <div class="gacha-screen">
         <div class="gacha-orb" id="gacha-orb">
           <div class="gacha-glow ${isSuperRare ? 'gacha-glow-gold' : isRare ? 'gacha-glow-blue' : 'gacha-glow-normal'}"></div>
-          <span class="gacha-orb-icon">🎁</span>
+          <span class="gacha-orb-icon"><dotlottie-wc src="${LOTTIE_URLS.anim5}" style="width:80px;height:80px" loop autoplay></dotlottie-wc></span>
         </div>
         <p class="gacha-tap-text">タップして あける！</p>
       </div>

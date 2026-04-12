@@ -154,7 +154,9 @@ const OralApp = (() => {
     app.innerHTML = `
       <div class="home-screen">
         <div class="home-header">
-          <div class="mascot">${theme.mascot || '🦷'}</div>
+          <div class="mascot" id="home-mascot">
+            <dotlottie-wc src="${LOTTIE_URLS.anim1}" style="width:100px;height:100px" loop autoplay></dotlottie-wc>
+          </div>
           <h1 class="home-title">${theme.name || 'おくちの<br>ぼうけん'}</h1>
           <button class="btn-theme-change" onclick="Themes.showSelector('OralApp.showHome()')">🎨</button>
         </div>
@@ -636,7 +638,7 @@ const OralApp = (() => {
       <div class="complete-screen">
         <div class="complete-stars">⭐🌟⭐</div>
         <h1 class="complete-title">${msg}</h1>
-        <div class="complete-mascot">${theme.mascot || '🦷'}✨</div>
+        <div class="complete-mascot"><dotlottie-wc src="${LOTTIE_URLS.anim2}" style="width:120px;height:120px" loop autoplay></dotlottie-wc></div>
         ${score ? `<p class="complete-score">${score}てん</p>` : ''}
         <div class="complete-stamp">📌 スタンプ + ${coinIcon}</div>
         ${streakMsg}
