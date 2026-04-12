@@ -21,7 +21,7 @@ const Anim = (() => {
   function mouthChar(char, size = 160) {
     const mouths = {
       'あ': { rx: 20, ry: 28, color: '#EF4444' },
-      'い': { rx: 30, ry: 8, color: '#F97316' },
+      'い': { rx: 28, ry: 5, color: '#F97316', teeth: true },
       'う': { rx: 10, ry: 14, color: '#3B82F6' },
       'べ': { rx: 15, ry: 20, color: '#10B981', tongue: true },
     };
@@ -60,9 +60,14 @@ const Anim = (() => {
           <animate attributeName="ry" values="${s*0.1};${s*0.14};${s*0.1}" dur="1.5s" repeatCount="indefinite"/>
         </ellipse>
       ` : ''}
-      <!-- 歯（あ・い の時） -->
-      ${char === 'あ' || char === 'い' ? `
-        <rect x="${cx-m.rx*0.7}" y="${cy+s*0.15-m.ry}" width="${m.rx*1.4}" height="${m.ry*0.3}" rx="2" fill="white" opacity=".8"/>
+      <!-- 歯 -->
+      ${char === 'あ' ? `
+        <rect x="${cx-m.rx*0.6}" y="${cy+s*0.15-m.ry+2}" width="${m.rx*1.2}" height="${m.ry*0.25}" rx="2" fill="white" opacity=".8"/>
+      ` : ''}
+      ${m.teeth ? `
+        <!-- い：横に開いた口＋上下の歯が見える -->
+        <rect x="${cx-m.rx*0.8}" y="${cy+s*0.13}" width="${m.rx*1.6}" height="3" rx="1" fill="white"/>
+        <rect x="${cx-m.rx*0.8}" y="${cy+s*0.17}" width="${m.rx*1.6}" height="3" rx="1" fill="white"/>
       ` : ''}
     </svg>`;
   }
