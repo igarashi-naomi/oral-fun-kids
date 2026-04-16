@@ -3,10 +3,56 @@ const GameBlowing = (() => {
   const STAGES = [
     { type: 'windmill', emoji: '🌀', label: 'かざぐるまをまわそう！', threshold: 30, targetSec: 3 },
     { type: 'candle', emoji: '🕯️', label: 'ろうそくをけそう！', threshold: 40, targetSec: 2 },
-    { type: 'dandelion', emoji: '🌼', label: 'たんぽぽのわたげをとばそう！', threshold: 35, targetSec: 4 },
+    { type: 'dandelion', emoji: '', label: 'たんぽぽのわたげをとばそう！', threshold: 35, targetSec: 4, svg: true },
     { type: 'balloon', emoji: '🎈', label: 'ふうせんをふくらまそう！', threshold: 25, targetSec: 5 },
     { type: 'trumpet', emoji: '🎺', label: 'ラッパをふこう！', threshold: 45, targetSec: 3 },
   ];
+
+  // タンポポ綿毛SVG
+  function dandelionSVG() {
+    return `<svg viewBox="0 0 200 200" width="140" height="140" style="overflow:visible">
+      <!-- 茎 -->
+      <line x1="100" y1="200" x2="100" y2="100" stroke="#6B8E23" stroke-width="4" stroke-linecap="round"/>
+      <!-- 綿毛の中心 -->
+      <circle cx="100" cy="80" r="8" fill="#C8B87C"/>
+      <!-- 綿毛（白いふわふわ） -->
+      ${Array.from({length: 16}, (_, i) => {
+        const angle = (i * 22.5) * Math.PI / 180;
+        const len = 28 + (i % 3) * 8;
+        const x2 = 100 + Math.cos(angle) * len;
+        const y2 = 80 + Math.sin(angle) * len;
+        const tx = 100 + Math.cos(angle) * (len + 6);
+        const ty = 80 + Math.sin(angle) * (len + 6);
+        return `<line x1="100" y1="80" x2="${x2}" y2="${y2}" stroke="#E8E0D0" stroke-width="1.5" class="watage watage-${i}"/>
+                <circle cx="${tx}" cy="${ty}" r="4" fill="white" stroke="#DDD" stroke-width="0.5" class="watage watage-${i}" opacity="0.95"/>`;
+      }).join('')}
+      <!-- 種子の小さな点 -->
+      ${Array.from({length: 8}, (_, i) => {
+        const angle = (i * 45) * Math.PI / 180;
+        const x = 100 + Math.cos(angle) * 12;
+        const y = 80 + Math.sin(angle) * 12;
+        return `<circle cx="${x}" cy="${y}" r="2" fill="#B8A860"/>`;
+      }).join('')}
+    </svg>`;
+  }
+
+  // 綿毛飛散エフェクト
+  function flyWatage(progress) {
+    const seeds = document.querySelectorAll('.watage');
+    seeds.forEach((el, i) => {
+      const group = Math.floor(i / 2); // line + circle pair
+      const flyAt = group * (100 / 16);
+      if (progress > flyAt) {
+        const t = Math.min((progress - flyAt) / 30, 1);
+        const angle = (group * 22.5 - 90 + (Math.random() - 0.5) * 20) * Math.PI / 180;
+        const dx = Math.cos(angle) * t * 120 + t * 60; // 右に流れる（風）
+        const dy = Math.sin(angle) * t * 80 - t * 40;  // 上に浮く
+        el.style.transform = `translate(${dx}px, ${dy}px)`;
+        el.style.opacity = `${1 - t * 0.8}`;
+        el.style.transition = 'transform 0.5s ease-out, opacity 0.5s ease-out';
+      }
+    });
+  }
 
   let currentStage = 0;
   let audioCtx = null;
@@ -42,7 +88,7 @@ const GameBlowing = (() => {
         </div>
 
         <div class="blow-content">
-          <div class="blow-emoji" id="blow-emoji">${stage.emoji}</div>
+          <div class="blow-emoji" id="blow-emoji">${stage.svg ? dandelionSVG() : stage.emoji}</div>
           <p class="blow-instruction">${stage.label}</p>
           <div class="blow-meter">
             <div class="blow-meter-fill" id="blow-meter" style="width:0%"></div>
@@ -97,7 +143,7 @@ const GameBlowing = (() => {
         isBlowing = false;
       }
 
-      updateMeter(stage);
+      updateMeter();
       if (blowProgress < 100) {
         animFrame = requestAnimationFrame(loop);
       }
@@ -120,20 +166,26 @@ const GameBlowing = (() => {
       blowProgress += 1.5;
     }
     const stage = STAGES[currentStage];
-    updateMeter(stage);
+    updateMeter();
     if (blowProgress < 100) {
       animFrame = requestAnimationFrame(tapLoop);
     }
   }
 
-  function updateMeter(stage) {
+  function updateMeter() {
     const meter = document.getElementById('blow-meter');
     const emoji = document.getElementById('blow-emoji');
     if (meter) meter.style.width = `${Math.min(blowProgress, 100)}%`;
 
     // 吹いてる間のアニメーション
+    const stage = STAGES[currentStage];
     if (emoji && isBlowing) {
-      emoji.style.transform = `rotate(${blowProgress * 3.6}deg) scale(${1 + blowProgress / 200})`;
+      if (stage?.svg) {
+        // 綿毛は飛散アニメ
+        flyWatage(blowProgress);
+      } else {
+        emoji.style.transform = `rotate(${blowProgress * 3.6}deg) scale(${1 + blowProgress / 200})`;
+      }
     }
 
     if (blowProgress >= 100) {
