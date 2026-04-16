@@ -19,6 +19,35 @@ const GameTongue = (() => {
   let currentDir = null;
   let roundTimer = null;
   let startTime = 0;
+  let cameraStream = null;
+  let cameraOn = false;
+
+  async function toggleCamera() {
+    if (cameraOn) {
+      if (cameraStream) { cameraStream.getTracks().forEach(t => t.stop()); cameraStream = null; }
+      cameraOn = false;
+    } else {
+      try {
+        cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: 160, height: 120 } });
+        cameraOn = true;
+      } catch(e) { cameraOn = false; }
+    }
+    nextRound(); // 再描画
+  }
+
+  function cameraHtml() {
+    if (!cameraOn) return '<button class="aiube-camera-btn" onclick="GameTongue.toggleCamera()">📷 カメラON</button>';
+    return `<div class="aiube-camera-wrap">
+      <video id="tongue-camera" autoplay playsinline muted style="width:120px;height:90px;border-radius:12px;border:3px solid #FFD700;object-fit:cover;transform:scaleX(-1)"></video>
+      <button class="aiube-camera-close" onclick="GameTongue.toggleCamera()">✕</button>
+    </div>`;
+  }
+
+  function attachCamera() {
+    if (!cameraOn || !cameraStream) return;
+    const v = document.getElementById('tongue-camera');
+    if (v) v.srcObject = cameraStream;
+  }
 
   function start() {
     currentRound = 0;
@@ -45,6 +74,7 @@ const GameTongue = (() => {
         </div>
 
         <div class="tongue-content">
+          ${cameraHtml()}
           <div class="tongue-face">👅</div>
           <div class="tongue-direction" style="color:${currentDir.color}">
             <span class="tongue-arrow">${currentDir.emoji}</span>
@@ -77,6 +107,8 @@ const GameTongue = (() => {
         </div>
       </div>
     `;
+
+    attachCamera();
 
     // 3秒タイマー
     let remaining = 3000;
@@ -127,14 +159,18 @@ const GameTongue = (() => {
 
   function stop() {
     if (roundTimer) clearInterval(roundTimer);
+    if (cameraStream) { cameraStream.getTracks().forEach(t => t.stop()); cameraStream = null; }
+    cameraOn = false;
     OralApp.showHome();
   }
 
   function complete() {
+    if (cameraStream) { cameraStream.getTracks().forEach(t => t.stop()); cameraStream = null; }
+    cameraOn = false;
     const duration = Math.round((Date.now() - startTime) / 1000);
     OralApp.logGameComplete('tongue', score, duration);
     OralApp.showComplete('tongue', score);
   }
 
-  return { start, tap, stop };
+  return { start, tap, stop, toggleCamera };
 })();

@@ -64,6 +64,52 @@ const GameAiube = (() => {
   let timer = null;
   let countdown = 0;
   let startTime = 0;
+  let cameraStream = null;
+  let cameraEnabled = false;
+
+  // カメラ起動
+  async function startCamera() {
+    try {
+      cameraStream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'user', width: 160, height: 120 }
+      });
+      cameraEnabled = true;
+    } catch (e) {
+      cameraEnabled = false;
+    }
+  }
+
+  function stopCamera() {
+    if (cameraStream) {
+      cameraStream.getTracks().forEach(t => t.stop());
+      cameraStream = null;
+    }
+    cameraEnabled = false;
+  }
+
+  // カメラプレビューHTML
+  function cameraHtml() {
+    if (!cameraEnabled) return '<button class="aiube-camera-btn" onclick="GameAiube.toggleCamera()">📷 カメラON</button>';
+    return `<div class="aiube-camera-wrap">
+      <video id="aiube-camera" autoplay playsinline muted style="width:120px;height:90px;border-radius:12px;border:3px solid #FFD700;object-fit:cover;transform:scaleX(-1)"></video>
+      <button class="aiube-camera-close" onclick="GameAiube.toggleCamera()">✕</button>
+    </div>`;
+  }
+
+  function attachCamera() {
+    if (!cameraEnabled || !cameraStream) return;
+    const video = document.getElementById('aiube-camera');
+    if (video) video.srcObject = cameraStream;
+  }
+
+  async function toggleCamera() {
+    if (cameraEnabled) {
+      stopCamera();
+    } else {
+      await startCamera();
+    }
+    showPose(); // 再描画
+  }
 
   function start() {
     if (timer) clearInterval(timer);
@@ -71,7 +117,6 @@ const GameAiube = (() => {
     currentRep = 0;
     currentSet = 0;
     startTime = Date.now();
-    // パタカラフレーズをシャッフル
     shuffledPatakara = [...PATAKARA_PHRASES].sort(() => Math.random() - 0.5);
     showPose();
   }
@@ -93,17 +138,18 @@ const GameAiube = (() => {
     app.innerHTML = `
       <div class="game-screen" style="background:${pose.color}15">
         <div class="game-top-bar">
-          <button class="btn-back-game" onclick="OralApp.showHome()">◀ やめる</button>
+          <button class="btn-back-game" onclick="GameAiube.stopAndGoHome()">◀ やめる</button>
           <span class="game-progress">${currentSet + 1}セット　${currentRep + 1}/${REPS_PER_SET}</span>
         </div>
 
         <div class="aiube-content">
+          ${cameraHtml()}
           <div class="aiube-face" style="border-color:${pose.color}" id="aiube-face">${pose.face}</div>
           <div class="aiube-char" style="color:${pose.color}">${pose.char}</div>
           <p class="aiube-instruction">${pose.instruction}</p>
           <div class="aiube-timer" id="aiube-timer">
             <div class="aiube-timer-circle" style="border-color:${pose.color}">
-              <span id="aiube-countdown">${countdown}</span>
+              <span id="aiube-countdown" style="font-size:0.9em;color:#888">よーい</span>
             </div>
           </div>
           ${pointHtml}
@@ -111,10 +157,19 @@ const GameAiube = (() => {
       </div>
     `;
 
+    attachCamera();
+
     // VOICEVOX音声（「おおきく あー！」等）
     try { Voice.aiube(pose.char); Sounds.tap(); } catch(e) {}
 
-    startCountdown(pose);
+    // 指示を2秒見せてからカウントダウン開始
+    setTimeout(() => {
+      const el = document.getElementById('aiube-countdown');
+      if (el) el.textContent = countdown;
+      if (el) el.style.fontSize = '';
+      if (el) el.style.color = '';
+      startCountdown(pose);
+    }, 2000);
   }
 
   function startCountdown(pose) {
@@ -289,15 +344,22 @@ const GameAiube = (() => {
     complete();
   }
 
+  function stopAndGoHome() {
+    if (timer) clearInterval(timer);
+    stopCamera();
+    OralApp.showHome();
+  }
+
   function complete() {
     if (timer) clearInterval(timer);
+    stopCamera();
     const duration = Math.round((Date.now() - startTime) / 1000);
     const score = (currentSet * REPS_PER_SET + currentRep) * 4 + currentPose;
     OralApp.logGameComplete('aiube', score, duration);
     OralApp.showComplete('aiube', score);
   }
 
-  function cleanup() { if (timer) { clearInterval(timer); timer = null; } }
+  function cleanup() { if (timer) { clearInterval(timer); timer = null; } stopCamera(); }
 
-  return { start, resumeNextSet, finishEarly, cleanup, sayPatakara, sayPatakaraFinal, _patakaraCount: 0, _patakaraFinalCount: 0, _currentPhrase: null, _currentPhraseFinal: null };
+  return { start, resumeNextSet, finishEarly, cleanup, sayPatakara, sayPatakaraFinal, toggleCamera, stopAndGoHome, _patakaraCount: 0, _patakaraFinalCount: 0, _currentPhrase: null, _currentPhraseFinal: null };
 })();

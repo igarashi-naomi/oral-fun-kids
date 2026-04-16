@@ -157,7 +157,10 @@ body {
 .btn-game-home { background: #F1F5F9; border-color: #94A3B8; color: #475569; }
 
 /* ===== あいうべ体操 ===== */
-.aiube-content { display: flex; flex-direction: column; align-items: center; padding-top: 20px; }
+.aiube-content { display: flex; flex-direction: column; align-items: center; padding-top: 20px; position: relative; }
+.aiube-camera-wrap { position: absolute; top: 0; right: 0; z-index: 10; }
+.aiube-camera-close { position: absolute; top: -6px; right: -6px; background: #EF4444; color: #fff; border: none; border-radius: 50%; width: 22px; height: 22px; font-size: 12px; cursor: pointer; line-height: 22px; padding: 0; }
+.aiube-camera-btn { background: #fff; border: 2px solid #FFD700; border-radius: 20px; padding: 6px 14px; font-size: 13px; cursor: pointer; margin-bottom: 4px; box-shadow: 0 2px 6px rgba(0,0,0,.08); }
 .aiube-face {
   width: 160px; height: 160px; border-radius: 50%; border: 6px solid;
   display: flex; align-items: center; justify-content: center;
