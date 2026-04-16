@@ -41,7 +41,7 @@ const GameAiube = (() => {
         'あごに つくくらい ながーく！',
         'べろの さきまで ちからをいれてね'
       ],
-      tipAudio: ['tip-be1.wav', null, 'tip-be3.wav'],
+      tipAudio: ['tip-be1.wav', 'tip-be2.wav', 'tip-be3.wav'],
       muscle: 'べろのきんにく（ぜつきん）',
       why: 'べろが つよくなると、たべものを うまくうごかせて ごっくんしやすくなるよ！'
     },
