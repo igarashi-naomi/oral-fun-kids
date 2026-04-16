@@ -8,6 +8,7 @@ const GameAiube = (() => {
         'のどのおくが みえるくらい パカッ！',
         'あごが いたくなるほど おおきくね'
       ],
+      tipAudio: ['tip-a1.wav', 'tip-a2.wav', 'tip-a3.wav'],
       muscle: 'おくちのまわり ぜんぶのきんにく',
       why: 'あごをおおきくあけると おくちのまわりの きんにくがきたえられるよ！'
     },
@@ -18,6 +19,7 @@ const GameAiube = (() => {
         'はが ぜんぶ みえるくらい「にーっ」',
         'ほっぺの きんにくが ピーンとはるかんじ'
       ],
+      tipAudio: ['tip-i1.wav', 'tip-i2.wav', 'tip-i3.wav'],
       muscle: 'ほっぺときんにく（きょうきん）',
       why: 'ほっぺのきんにくが きたえられて、たべものが こぼれにくくなるよ！'
     },
@@ -28,6 +30,7 @@ const GameAiube = (() => {
         'タコの おくちみたいに とがらせてね',
         'くちびるに ちからを いれてキープ'
       ],
+      tipAudio: ['tip-u1.wav', 'tip-u2.wav', 'tip-u3.wav'],
       muscle: 'くちびるのきんにく（こうりんきん）',
       why: 'くちびるが つよくなると おくちが とじやすくなって はなこきゅうに なるよ！'
     },
@@ -38,6 +41,7 @@ const GameAiube = (() => {
         'あごに つくくらい ながーく！',
         'べろの さきまで ちからをいれてね'
       ],
+      tipAudio: ['tip-be1.wav', null, 'tip-be3.wav'],
       muscle: 'べろのきんにく（ぜつきん）',
       why: 'べろが つよくなると、たべものを うまくうごかせて ごっくんしやすくなるよ！'
     },
@@ -162,14 +166,39 @@ const GameAiube = (() => {
     // VOICEVOX音声（「おおきく あー！」等）
     try { Voice.aiube(pose.char); Sounds.tap(); } catch(e) {}
 
-    // 指示を2秒見せてからカウントダウン開始
-    setTimeout(() => {
-      const el = document.getElementById('aiube-countdown');
-      if (el) el.textContent = countdown;
-      if (el) el.style.fontSize = '';
-      if (el) el.style.color = '';
-      startCountdown(pose);
-    }, 2000);
+    // 1周目: 注意事項を音声で読み上げてからカウントダウン
+    const isFirstRep = currentRep === 0 && currentSet === 0;
+    if (isFirstRep && pose.tipAudio) {
+      // 指示音声(1秒) → tip1(1.5秒) → tip2(1.5秒) → tip3(1.5秒) → カウントダウン
+      let delay = 1500;
+      pose.tipAudio.forEach((file, i) => {
+        if (file) {
+          setTimeout(() => {
+            try { Voice.play(file); } catch(e) {}
+            // 読み上げ中のポイントをハイライト
+            const points = document.querySelectorAll('.aiube-point');
+            points.forEach((p, j) => {
+              p.style.fontWeight = j === i ? '900' : '400';
+              p.style.color = j === i ? pose.color : '';
+            });
+          }, delay);
+        }
+        delay += 2000;
+      });
+      // 全tip読み上げ後にカウントダウン開始
+      setTimeout(() => {
+        const el = document.getElementById('aiube-countdown');
+        if (el) { el.textContent = countdown; el.style.fontSize = ''; el.style.color = ''; }
+        startCountdown(pose);
+      }, delay);
+    } else {
+      // 2周目以降: 2秒見せてからカウントダウン
+      setTimeout(() => {
+        const el = document.getElementById('aiube-countdown');
+        if (el) { el.textContent = countdown; el.style.fontSize = ''; el.style.color = ''; }
+        startCountdown(pose);
+      }, 2000);
+    }
   }
 
   function startCountdown(pose) {
