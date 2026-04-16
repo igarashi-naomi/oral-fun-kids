@@ -53,5 +53,5 @@ const Voice = (() => {
   function complete() { return play('complete.wav'); }
   function guide() { return play('start.wav'); }
 
-  return { play, aiube, countdown, correct, wrong, complete, guide, stop, toggle, isEnabled };
+  return { play, aiube, countdown, correct, wrong, complete, guide, stop, stopAll: stop, toggle, isEnabled };
 })();

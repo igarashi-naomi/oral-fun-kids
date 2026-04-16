@@ -288,8 +288,11 @@ const GameAiube = (() => {
     GameAiube._patakaraCount = 0;
     GameAiube._currentPhrase = phrase;
 
-    // 音声再生
-    try { Voice.play(phrase.audio); } catch(e) {}
+    // 前の音声を止めてから、1秒後に再生（声の重なり防止）
+    try { Voice.stopAll(); } catch(e) {}
+    setTimeout(() => {
+      try { Voice.play(phrase.audio); } catch(e) {}
+    }, 1000);
   }
 
   function sayPatakara() {
@@ -298,6 +301,7 @@ const GameAiube = (() => {
     if (countEl) countEl.textContent = GameAiube._patakaraCount;
 
     try {
+      Voice.stopAll();
       Sounds.tap();
       Effects.sparkle(window.innerWidth / 2, window.innerHeight * 0.5, 10);
       Effects.vibrate([20]);
@@ -347,12 +351,14 @@ const GameAiube = (() => {
     `;
     GameAiube._patakaraFinalCount = 0;
     GameAiube._currentPhraseFinal = phrase;
-    try { Voice.play(phrase.audio); } catch(e) {}
+    try { Voice.stopAll(); } catch(e) {}
+    setTimeout(() => { try { Voice.play(phrase.audio); } catch(e) {} }, 1000);
   }
 
   function sayPatakaraFinal() {
     GameAiube._patakaraFinalCount++;
     const countEl = document.getElementById('patakara-count');
+    try { Voice.stopAll(); } catch(e) {}
     if (countEl) countEl.textContent = GameAiube._patakaraFinalCount;
     try { Sounds.tap(); Effects.sparkle(window.innerWidth/2, window.innerHeight*0.5, 10); Effects.vibrate([20]); } catch(e) {}
 
