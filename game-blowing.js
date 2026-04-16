@@ -1,12 +1,36 @@
 // ふーふーチャレンジ — マイク入力で風車やろうそくを吹く
 const GameBlowing = (() => {
   const STAGES = [
-    { type: 'windmill', emoji: '🌀', label: 'かざぐるまをまわそう！', threshold: 30, targetSec: 3 },
-    { type: 'candle', emoji: '🕯️', label: 'ろうそくをけそう！', threshold: 40, targetSec: 2 },
-    { type: 'dandelion', emoji: '', label: 'たんぽぽのわたげをとばそう！', threshold: 35, targetSec: 4, svg: true },
-    { type: 'balloon', emoji: '🎈', label: 'ふうせんをふくらまそう！', threshold: 25, targetSec: 5 },
-    { type: 'trumpet', emoji: '🎺', label: 'ラッパをふこう！', threshold: 45, targetSec: 3 },
+    { type: 'windmill', emoji: '🌀', label: 'かざぐるまをまわそう！', threshold: 30, targetSec: 3, anim: 'rotate' },
+    { type: 'candle', emoji: '', label: 'ろうそくをけそう！', threshold: 40, targetSec: 2, anim: 'candle', svg: true },
+    { type: 'dandelion', emoji: '', label: 'たんぽぽのわたげをとばそう！', threshold: 35, targetSec: 4, anim: 'dandelion', svg: true },
+    { type: 'balloon', emoji: '', label: 'ふうせんをふくらまそう！', threshold: 25, targetSec: 5, anim: 'balloon', svg: true },
+    { type: 'trumpet', emoji: '🎺', label: 'ラッパをふこう！', threshold: 45, targetSec: 3, anim: 'rotate' },
   ];
+
+  // ろうそくSVG
+  function candleSVG() {
+    return `<svg viewBox="0 0 100 200" width="100" height="200">
+      <rect x="38" y="80" width="24" height="100" rx="4" fill="#F5E6CA" stroke="#D4C4A0" stroke-width="1.5"/>
+      <rect x="35" y="78" width="30" height="8" rx="3" fill="#E8D8B8"/>
+      <line x1="50" y1="78" x2="50" y2="55" stroke="#333" stroke-width="2"/>
+      <g id="candle-flame">
+        <ellipse cx="50" cy="40" rx="12" ry="22" fill="#FF9800" opacity="0.9"/>
+        <ellipse cx="50" cy="38" rx="7" ry="15" fill="#FFEB3B" opacity="0.9"/>
+        <ellipse cx="50" cy="36" rx="3" ry="8" fill="#FFF9C4"/>
+      </g>
+    </svg>`;
+  }
+
+  // 風船SVG
+  function balloonSVG() {
+    return `<svg viewBox="0 0 120 200" width="120" height="200">
+      <line x1="60" y1="200" x2="60" y2="140" stroke="#999" stroke-width="1.5"/>
+      <ellipse id="balloon-body" cx="60" cy="80" rx="35" ry="50" fill="#FF6B6B" stroke="#E55555" stroke-width="1.5"/>
+      <polygon points="50,128 60,145 70,128" fill="#FF6B6B" stroke="#E55555" stroke-width="1"/>
+      <ellipse cx="48" cy="65" rx="8" ry="12" fill="white" opacity="0.3" transform="rotate(-20,48,65)"/>
+    </svg>`;
+  }
 
   // タンポポ綿毛SVG
   function dandelionSVG() {
@@ -88,7 +112,7 @@ const GameBlowing = (() => {
         </div>
 
         <div class="blow-content">
-          <div class="blow-emoji" id="blow-emoji">${stage.svg ? dandelionSVG() : stage.emoji}</div>
+          <div class="blow-emoji" id="blow-emoji">${stage.svg ? (stage.type === 'candle' ? candleSVG() : stage.type === 'balloon' ? balloonSVG() : dandelionSVG()) : stage.emoji}</div>
           <p class="blow-instruction">${stage.label}</p>
           <div class="blow-meter">
             <div class="blow-meter-fill" id="blow-meter" style="width:0%"></div>
@@ -177,14 +201,40 @@ const GameBlowing = (() => {
     const emoji = document.getElementById('blow-emoji');
     if (meter) meter.style.width = `${Math.min(blowProgress, 100)}%`;
 
-    // 吹いてる間のアニメーション
+    // ステージ別アニメーション
     const stage = STAGES[currentStage];
-    if (emoji && isBlowing) {
-      if (stage?.svg) {
-        // 綿毛は飛散アニメ
-        flyWatage(blowProgress);
-      } else {
-        emoji.style.transform = `rotate(${blowProgress * 3.6}deg) scale(${1 + blowProgress / 200})`;
+    if (emoji) {
+      switch (stage?.anim) {
+        case 'rotate': // 風車・ラッパ
+          emoji.style.transform = `rotate(${blowProgress * 3.6}deg)`;
+          emoji.style.transition = 'transform 0.1s';
+          break;
+        case 'candle': { // ろうそく：炎が揺れて消える
+          const flame = document.getElementById('candle-flame');
+          if (flame) {
+            const flicker = isBlowing ? (Math.random() * 20 - 10) : 0;
+            const scale = Math.max(0, 1 - blowProgress / 100);
+            flame.style.transform = `scale(${scale}) rotate(${flicker}deg)`;
+            flame.style.transformOrigin = '50px 55px';
+            flame.style.opacity = scale;
+            flame.style.transition = 'transform 0.15s, opacity 0.15s';
+          }
+          break;
+        }
+        case 'dandelion': // 綿毛：飛散
+          if (isBlowing) flyWatage(blowProgress);
+          break;
+        case 'balloon': { // 風船：膨らむ
+          const body = document.getElementById('balloon-body');
+          if (body) {
+            const s = 1 + blowProgress / 100;
+            body.setAttribute('rx', 35 * s);
+            body.setAttribute('ry', 50 * s);
+          }
+          emoji.style.transform = `scale(${1 + blowProgress / 200})`;
+          emoji.style.transition = 'transform 0.2s';
+          break;
+        }
       }
     }
 
@@ -202,7 +252,7 @@ const GameBlowing = (() => {
         `${stage.emoji} ステージ${currentStage + 1} クリア！`,
         (action) => {
           if (action === 'continue') nextStage();
-          else { cleanup(); complete(); }
+          else { cleanup(); earlyComplete(); }
         }
       );
     } else {
@@ -234,11 +284,21 @@ const GameBlowing = (() => {
     analyser = null;
   }
 
+  function earlyComplete() {
+    // 途中やめ: クリアしたステージ分だけの得点
+    cleanup();
+    const duration = Math.round((Date.now() - startTime) / 1000);
+    const score = (currentStage + 1) * 20; // クリア済ステージ数
+    OralApp.logGameComplete('blowing', score, duration);
+    OralApp.showComplete('blowing', score);
+  }
+
   function complete() {
     cleanup();
     const duration = Math.round((Date.now() - startTime) / 1000);
-    OralApp.logGameComplete('blowing', STAGES.length * 20, duration);
-    OralApp.showComplete('blowing', STAGES.length * 20);
+    const score = STAGES.length * 20;
+    OralApp.logGameComplete('blowing', score, duration);
+    OralApp.showComplete('blowing', score);
   }
 
   return { start, startMic, tapBlow, tapRelease, nextStage, stop };

@@ -122,7 +122,14 @@ body {
 .game-card-quiz .game-name { color: #0EA5E9; }
 
 /* フッター */
-.home-footer { display: flex; gap: 12px; justify-content: center; margin-top: 20px; }
+.home-footer {
+  display: flex; gap: 8px; margin-top: 20px;
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+  padding: 8px 4px; scroll-snap-type: x mandatory;
+  justify-content: flex-start; flex-wrap: nowrap;
+}
+.home-footer::-webkit-scrollbar { display: none; }
+.home-footer > button { flex-shrink: 0; scroll-snap-align: start; }
 .btn-calendar, .btn-parent {
   padding: 12px 20px; border-radius: 16px; border: 2px solid #CBD5E1;
   background: #fff; font-size: 15px; font-weight: 700; cursor: pointer;

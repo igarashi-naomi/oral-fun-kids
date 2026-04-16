@@ -66,8 +66,9 @@ const OralApp = (() => {
 
   function getParams() {
     const p = new URLSearchParams(location.search);
-    karteNo = p.get('k') || null;
-    clinicCode = p.get('c') || 'A';
+    karteNo = p.get('k') || localStorage.getItem('oral_karteNo') || 'guest_' + (localStorage.getItem('oral_guestId') || (() => { const id = Math.random().toString(36).slice(2,10); localStorage.setItem('oral_guestId', id); return id; })());
+    clinicCode = p.get('c') || localStorage.getItem('oral_clinicCode') || 'A';
+    if (p.get('k')) { localStorage.setItem('oral_karteNo', p.get('k')); localStorage.setItem('oral_clinicCode', clinicCode); }
   }
 
   async function start() {
@@ -591,7 +592,9 @@ const OralApp = (() => {
           coins: firebase.firestore.FieldValue.increment(1)
         };
         await streakRef.update(updateData);
-        streakData = { ...s, ...updateData };
+        // FieldValue.incrementを解決するため再読み込み
+        const updatedDoc = await streakRef.get();
+        streakData = updatedDoc.data();
 
         if (newStreak >= STREAK_NOTIFY_DAYS && newStreak !== (s.currentStreak || 0)) {
           await sendStreakAlert(newStreak, s.lastNotifiedStreak || 0);
@@ -642,18 +645,19 @@ const OralApp = (() => {
         ${score ? `<p class="complete-score">${score}てん</p>` : ''}
         <div class="complete-stamp">📌 スタンプ + ${coinIcon}</div>
         ${streakMsg}
-        <p class="gacha-teaser">カードを ゲットしよう！</p>
+        <button class="btn-game btn-game-next" onclick="OralApp._goToGacha('${gameType}', ${isExercise})" style="margin-top:24px;font-size:1.2rem">
+          カードを ゲットしよう！ →
+        </button>
       </div>
     `;
+    try { Sounds.fanfare(); Effects.confetti(); } catch(e) {}
+  }
 
-    // 2秒後にガチャ→くすっと→次へ
-    setTimeout(() => {
-      const card = Collection.drawCard();
-      Collection.showGacha(card, () => {
-        // ガチャ後: くすっとフレーズを1つ表示
-        showKusutto(gameType, isExercise);
-      });
-    }, 2000);
+  function _goToGacha(gameType, isExercise) {
+    const card = Collection.drawCard();
+    Collection.showGacha(card, () => {
+      showKusutto(gameType, isExercise);
+    });
   }
 
   // くすっとフレーズを1つ表示
@@ -724,7 +728,7 @@ const OralApp = (() => {
 
   return {
     start, showHome, openGame, logGameComplete, showComplete, showLockedMessage,
-    playReward, toggleDailyCheck, toNickname, _kusuttoReveal, getUnlockedStage,
+    playReward, toggleDailyCheck, toNickname, _kusuttoReveal, _goToGacha, getUnlockedStage,
     get karteNo() { return karteNo; },
     get clinicCode() { return clinicCode; }
   };
