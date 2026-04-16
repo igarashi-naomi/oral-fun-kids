@@ -153,7 +153,7 @@ const GameAiube = (() => {
           <p class="aiube-instruction">${pose.instruction}</p>
           <div class="aiube-timer" id="aiube-timer">
             <div class="aiube-timer-circle" style="border-color:${pose.color}">
-              <span id="aiube-countdown" style="font-size:0.9em;color:#888">よーい</span>
+              <span id="aiube-countdown">　</span>
             </div>
           </div>
           ${pointHtml}
@@ -188,14 +188,14 @@ const GameAiube = (() => {
       // 全tip読み上げ後にカウントダウン開始
       setTimeout(() => {
         const el = document.getElementById('aiube-countdown');
-        if (el) { el.textContent = countdown; el.style.fontSize = ''; el.style.color = ''; }
+        if (el) el.textContent = countdown;
         startCountdown(pose);
       }, delay);
     } else {
       // 2周目以降: 2秒見せてからカウントダウン
       setTimeout(() => {
         const el = document.getElementById('aiube-countdown');
-        if (el) { el.textContent = countdown; el.style.fontSize = ''; el.style.color = ''; }
+        if (el) el.textContent = countdown;
         startCountdown(pose);
       }, 2000);
     }
