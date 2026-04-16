@@ -1,4 +1,25 @@
 /* おくちのぼうけん — 子供向けUI */
+#reload-btn {
+  position: fixed;
+  top: 8px;
+  right: 8px;
+  z-index: 99999;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(4px);
+  font-size: 18px;
+  line-height: 36px;
+  text-align: center;
+  padding: 0;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  opacity: 0.5;
+  transition: opacity 0.2s;
+}
+#reload-btn:hover, #reload-btn:active { opacity: 1; }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
   font-family: 'M PLUS Rounded 1c', 'Noto Sans JP', sans-serif;
