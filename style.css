@@ -162,9 +162,9 @@ body {
 .aiube-camera-close { position: absolute; top: -6px; right: -6px; background: #EF4444; color: #fff; border: none; border-radius: 50%; width: 22px; height: 22px; font-size: 12px; cursor: pointer; line-height: 22px; padding: 0; }
 .aiube-camera-btn { background: #fff; border: 2px solid #FFD700; border-radius: 20px; padding: 6px 14px; font-size: 13px; cursor: pointer; margin-bottom: 4px; box-shadow: 0 2px 6px rgba(0,0,0,.08); }
 .aiube-face {
-  width: 160px; height: 160px; border-radius: 50%; border: 6px solid;
+  width: min(70vw, 320px); height: min(70vw, 320px); border-radius: 50%; border: 8px solid;
   display: flex; align-items: center; justify-content: center;
-  font-size: 80px; background: #fff; margin-bottom: 16px;
+  font-size: min(40vw, 180px); background: #fff; margin-bottom: 16px;
   box-shadow: 0 8px 24px rgba(0,0,0,.1);
   animation: pulse 1s ease-in-out infinite;
 }
@@ -172,8 +172,8 @@ body {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.05); }
 }
-.aiube-char { font-size: 72px; font-weight: 900; margin: 12px 0; }
-.aiube-instruction { font-size: 22px; font-weight: 700; color: #475569; }
+.aiube-char { font-size: min(20vw, 120px); font-weight: 900; margin: 12px 0; }
+.aiube-instruction { font-size: min(6vw, 28px); font-weight: 700; color: #475569; }
 .aiube-timer { margin: 24px 0; }
 .aiube-timer-circle {
   width: 80px; height: 80px; border-radius: 50%; border: 5px solid;
@@ -185,7 +185,7 @@ body {
 /* パタカラフレーズ画面 */
 .patakara-screen { background: linear-gradient(180deg, #FFF7ED, #FFFBEB) !important; }
 .patakara-content { display: flex; flex-direction: column; align-items: center; padding-top: 20px; }
-.patakara-character { font-size: 80px; animation: bounce 1.5s ease-in-out infinite; }
+.patakara-character { font-size: min(40vw, 180px); animation: bounce 1.5s ease-in-out infinite; }
 .patakara-title { font-size: 20px; font-weight: 900; color: #B45309; margin: 8px 0; }
 .patakara-instruction { font-size: 15px; color: #78716C; margin-bottom: 16px; }
 .patakara-phrase {
@@ -236,7 +236,8 @@ body {
 
 /* ===== ふーふーチャレンジ ===== */
 .blow-content { display: flex; flex-direction: column; align-items: center; padding-top: 40px; }
-.blow-emoji { font-size: 100px; transition: transform .3s; margin-bottom: 20px; }
+.blow-emoji { font-size: min(40vw, 180px); transition: transform .3s; margin-bottom: 20px; }
+.blow-emoji svg { width: min(60vw, 280px) !important; height: auto !important; }
 .blow-instruction { font-size: 22px; font-weight: 700; color: #10B981; margin-bottom: 16px; }
 .blow-meter { width: 80%; height: 24px; background: #E2E8F0; border-radius: 12px; overflow: hidden; border: 2px solid #CBD5E1; margin: 12px 0; }
 .blow-meter-fill { height: 100%; background: linear-gradient(90deg, #10B981, #34D399); border-radius: 12px; transition: width .1s; }
@@ -244,9 +245,9 @@ body {
 
 /* ===== べろべろチャレンジ ===== */
 .tongue-content { display: flex; flex-direction: column; align-items: center; padding-top: 20px; }
-.tongue-face { font-size: 64px; margin-bottom: 12px; }
+.tongue-face { font-size: min(25vw, 120px); margin-bottom: 12px; }
 .tongue-direction { display: flex; align-items: center; gap: 12px; margin: 12px 0; }
-.tongue-arrow { font-size: 48px; animation: blink 0.6s ease-in-out infinite; }
+.tongue-arrow { font-size: min(20vw, 96px); animation: blink 0.6s ease-in-out infinite; }
 @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 .tongue-label { font-size: 36px; font-weight: 900; }
 .tongue-instruction { font-size: 16px; color: #78716C; margin-bottom: 4px; }
