@@ -418,6 +418,25 @@ const OralApp = (() => {
             <span class="game-name">${theme.rewardName || 'オセロ'}</span>
             <span class="game-desc">${canPlayOsero ? 'あそべるよ！' : `${REWARD_COST}${coinName}ひつよう`}</span>
           </button>
+          <button class="game-card ${coins >= 1 ? '' : 'game-card-locked'}"
+            onclick="${coins >= 1 ? 'OralApp.buyLuckyDraw()' : ''}" style="border-color:#FF9800">
+            ${coins < 1 ? '<span class="game-lock">🔒</span>' : ''}
+            <span class="game-icon">🎰</span>
+            <span class="game-name">ラッキーガチャ</span>
+            <span class="game-desc">1${coinName}で カード1まい！</span>
+          </button>
+          <button class="game-card ${coins >= 5 ? '' : 'game-card-locked'}"
+            onclick="${coins >= 5 ? 'OralApp.buySuperDraw()' : ''}" style="border-color:#9C27B0">
+            ${coins < 5 ? '<span class="game-lock">🔒</span>' : ''}
+            <span class="game-icon">✨</span>
+            <span class="game-name">スーパーガチャ</span>
+            <span class="game-desc">5${coinName}で レアカード!</span>
+          </button>
+          <button class="game-card" onclick="StampCalendar.show()" style="border-color:#4CAF50">
+            <span class="game-icon">📅</span>
+            <span class="game-name">スタンプちょう</span>
+            <span class="game-desc">れんぞく日数をみる</span>
+          </button>
         </div>
       </div>
     `;
@@ -476,6 +495,40 @@ const OralApp = (() => {
       if (streakData) streakData.coins = (streakData.coins || 0) - REWARD_COST;
     } catch (e) {}
     GameReward.start();
+  }
+
+  // コイン1枚でラッキーガチャ
+  async function buyLuckyDraw() {
+    const coins = streakData?.coins || 0;
+    if (coins < 1) return;
+    try {
+      await db.collection('oralFunctionStreaks').doc(karteNo).update({
+        coins: firebase.firestore.FieldValue.increment(-1)
+      });
+      if (streakData) streakData.coins = coins - 1;
+    } catch (e) {}
+    const card = Collection.drawCard();
+    Collection.showGacha(card, () => showHome());
+  }
+
+  // コイン5枚でレア確定スーパーガチャ
+  async function buySuperDraw() {
+    const coins = streakData?.coins || 0;
+    if (coins < 5) return;
+    try {
+      await db.collection('oralFunctionStreaks').doc(karteNo).update({
+        coins: firebase.firestore.FieldValue.increment(-5)
+      });
+      if (streakData) streakData.coins = coins - 5;
+    } catch (e) {}
+    // レア以上を抽選
+    let card = Collection.drawCard();
+    let tries = 0;
+    while (card.rarity === 'common' && tries < 10) {
+      card = Collection.drawCard();
+      tries++;
+    }
+    Collection.showGacha(card, () => showHome());
   }
 
   async function toggleDailyCheck(checkId, checked) {
@@ -720,6 +773,7 @@ const OralApp = (() => {
           ${nextAction}
           <button class="btn-game btn-game-retry" onclick="OralApp.openGame('${gameType}')">もういっかい（カードもう1まい！）</button>
           <button class="btn-game btn-game-home" onclick="Collection.showAlbum()">📖 ずかんをみる</button>
+          <button class="btn-game btn-game-home" onclick="StampCalendar.show()">📅 スタンプちょうをみる</button>
           <button class="btn-game btn-game-home" onclick="OralApp.showHome()">ホーム</button>
         </div>
       </div>
@@ -728,7 +782,7 @@ const OralApp = (() => {
 
   return {
     start, showHome, openGame, logGameComplete, showComplete, showLockedMessage,
-    playReward, toggleDailyCheck, toNickname, _kusuttoReveal, _goToGacha, getUnlockedStage,
+    playReward, buyLuckyDraw, buySuperDraw, toggleDailyCheck, toNickname, _kusuttoReveal, _goToGacha, getUnlockedStage,
     get karteNo() { return karteNo; },
     get clinicCode() { return clinicCode; }
   };
