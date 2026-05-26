@@ -1,2 +1,126 @@
-# Local Netlify folder
-.netlify
+# ============================================================
+# 🔒 包括的 .gitignore（敬爾会標準）
+# 2026-05-25 制定
+# 個人情報・秘密鍵・インフラ情報を commit から完全排除
+# ============================================================
+
+# ===== 個人情報 (絶対 commit 禁止) =====
+patients.json
+patients_honin.json
+patients_east.json
+patients_main.json
+patients_*.json
+staff-master.json
+staff.json
+staffs.json
+members.json
+member.json
+users.json
+employees.json
+*-patients.json
+*_patients.json
+backup-*.json
+*_backup.json
+
+# ===== 秘密鍵・トークン (絶対 commit 禁止) =====
+.env
+.env.local
+.env.production
+.env.development
+.env.*
+*.pem
+*.key
+*.p12
+*.p8
+*.jks
+serviceAccountKey.json
+firebase-adminsdk-*.json
+service-account*.json
+google-services.json
+GoogleService-Info.plist
+*credentials*.json
+secrets.json
+secret.json
+secrets/
+.secrets/
+
+# ===== Firebase インフラ設定 (公開禁止) =====
+firebase-debug.log
+firestore-debug.log
+firebase.json
+firestore.rules
+firestore.indexes.json
+.firebaserc
+.firebase/
+
+# ===== Node.js =====
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.npm
+.yarn
+
+# ===== ビルド成果物 =====
+dist/
+build/
+.next/
+.nuxt/
+.cache/
+.parcel-cache/
+out/
+
+# ===== IDE/エディタ =====
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===== OS 一時ファイル =====
+*.tmp
+*.temp
+*.bak
+*.backup
+*.old
+*.orig
+*.log
+
+# ===== Claude Code 内部 =====
+.claude/
+.claude-cache/
+
+# ===== Netlify =====
+.netlify/
+netlify.toml.bak
+
+# ===== 個人情報を含む可能性のあるファイル =====
+*.csv
+*.xlsx
+*.xls
+*.docx
+*.pdf
+data/private/
+data/personal/
+backup/
+
+# ===== 開発用一時ファイル =====
+TODO.md.private
+*.private.md
+private-*.md
+notes/
+scratch/
+
+# ===== ハニーポット（実物はOK・パターンファイル除外）=====
+honeypot-template-*.json
+
+# ===== その他 =====
+*.zip
+*.tar.gz
+*.rar
+*.7z
+.history/

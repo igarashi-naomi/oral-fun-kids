@@ -1,0 +1,7 @@
+{
+  "_honeypot": true,
+  "_alert": "UNAUTHORIZED_ACCESS_DETECTED",
+  "_message": "This is a honeypot file. Access has been logged.",
+  "_timestamp": "auto-generated",
+  "_action": "If you accessed this file, you should know that this access is being monitored."
+}

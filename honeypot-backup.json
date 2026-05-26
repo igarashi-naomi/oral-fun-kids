@@ -1,0 +1,5 @@
+{
+  "_honeypot": true,
+  "_alert": "UNAUTHORIZED_BACKUP_ACCESS",
+  "_message": "This is a honeypot. Access logged."
+}

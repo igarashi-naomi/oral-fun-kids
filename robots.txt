@@ -1,0 +1,11 @@
+# 2026-05-23 個人情報JSON漏洩対策
+User-agent: *
+Disallow: /patients.json
+Disallow: /patients_honin.json
+Disallow: /patients_east.json
+Disallow: /staff-master.json
+Disallow: /.env
+
+# Wayback Machine（Internet Archive）クローラ拒否
+User-agent: ia_archiver
+Disallow: /

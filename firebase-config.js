@@ -9,6 +9,19 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
+
+// 2026-05-25 App Check 組込（reCAPTCHA Enterprise）
+// 強制モードは Firebase Console > App Check で切替（最初は監視のみ推奨）
+try {
+  const appCheck = firebase.appCheck();
+  appCheck.activate(
+    new firebase.appCheck.ReCaptchaEnterpriseProvider('6Lf6V_ssAAAAAMREO-xd6ce7pHRpcVuZqNLZZW6G'),
+    true  // isTokenAutoRefreshEnabled
+  );
+  console.log('[App Check] reCAPTCHA Enterprise 初期化完了');
+} catch (e) {
+  console.warn('[App Check] 初期化エラー:', e.message);
+}
 const db = firebase.firestore();
 const auth = firebase.auth();
 

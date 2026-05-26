@@ -2,3 +2,23 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+# 2026-05-23 個人情報JSON漏洩対策ヘッダー
+[[headers]]
+  for = "/*.json"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive"
+    Cache-Control = "no-store, no-cache, must-revalidate"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer-when-downgrade"
+    # 2026-05-25 HSTS: 1年間HTTPS強制（ダウングレード攻撃防止）
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    # 2026-05-25 Permissions-Policy: 未使用機能ブロック（攻撃面減）
+    Permissions-Policy = "camera=(self), microphone=(self), geolocation=(self), payment=()"
+    # 2026-05-25 CSP: object-src 'none' で Flash/Java 禁止、base-uri 'self' で base タグ乗っ取り防止
+    Content-Security-Policy = "default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https:; connect-src 'self' https: wss:; frame-src 'self' https:; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; upgrade-insecure-requests"
